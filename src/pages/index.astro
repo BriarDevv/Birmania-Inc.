@@ -62,10 +62,10 @@ import WhatsAppFloat from "../components/WhatsAppFloat.astro";
     "-=0.2"
   );
   tl.fromTo(
-    ".hero__image",
-    { x: 60, opacity: 0 },
-    { x: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-    "-=0.4"
+    ".hero__image img",
+    { yPercent: 10, opacity: 0 },
+    { yPercent: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
+    "-=0.35"
   );
   tl.fromTo(
     ".whatsapp-float",
