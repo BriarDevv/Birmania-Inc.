@@ -10,7 +10,7 @@ import Footer from "../components/Footer.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 ---
 
-<Layout title="Birmania Inc — Uniformes Corporativos">
+<Layout title="Birmania Inc — Uniformes para Empresas">
   <Header />
   <main>
     <Hero />
@@ -36,8 +36,10 @@ import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 <script>
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { initWhatsAppFloatTheme } from "../scripts/whatsappFloatTheme";
 
   gsap.registerPlugin(ScrollTrigger);
+  initWhatsAppFloatTheme();
 
   // Hero entrance timeline
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -71,13 +73,36 @@ import WhatsAppFloat from "../components/WhatsAppFloat.astro";
     once: true,
   };
 
+  const shouldAnimateSectorsHeaderOnLoad = () => {
+    const sectorsSection = document.querySelector(".sectors");
+
+    if (!sectorsSection || window.innerWidth < 1280) {
+      return false;
+    }
+
+    const rect = sectorsSection.getBoundingClientRect();
+    return rect.top < window.innerHeight - 120;
+  };
+
+  const animateSectorsHeaderOnLoad = shouldAnimateSectorsHeaderOnLoad();
+
+  if (animateSectorsHeaderOnLoad) {
+    tl.from(".sectors__header", {
+      y: 40,
+      opacity: 0,
+      duration: 0.7,
+    }, "+=0.1");
+  }
+
   // Sectors
-  gsap.from(".sectors__header", {
-    scrollTrigger: { trigger: ".sectors__header", ...scrollDefaults },
-    y: 40,
-    opacity: 0,
-    duration: 0.7,
-  });
+  if (!animateSectorsHeaderOnLoad) {
+    gsap.from(".sectors__header", {
+      scrollTrigger: { trigger: ".sectors__header", ...scrollDefaults },
+      y: 40,
+      opacity: 0,
+      duration: 0.7,
+    });
+  }
 
   gsap.from(".sectors__card", {
     scrollTrigger: { trigger: ".sectors__grid", ...scrollDefaults },
