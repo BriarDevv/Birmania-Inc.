@@ -1,0 +1,135 @@
+---
+
+---
+
+<section class="cta" id="contacto">
+  <div class="cta__inner">
+    <h2 class="cta__title">
+      ¿Listo para equipar <br class="desktop-br" />a tu equipo?
+    </h2>
+    <p class="cta__sub">
+      Contanos qué necesitás y te armamos una propuesta<br />
+      personalizada para tu empresa.
+    </p>
+    <div class="cta__row">
+      <a href="#" class="cta__btn">Solicitar Cotización</a>
+    </div>
+    <span class="cta__trust">Sin compromiso · Respuesta en menos de 24hs</span>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: #f5f5f5;
+  }
+
+  .cta__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 100px 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .cta__title {
+    font-family: "Sora", sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    color: #000;
+    text-align: center;
+    max-width: 700px;
+  }
+
+  .cta__sub {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #777;
+    text-align: center;
+    max-width: 600px;
+  }
+
+  .cta__row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .cta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 18px 40px;
+    transition: opacity 0.2s;
+  }
+
+  .cta__btn:hover {
+    opacity: 0.85;
+  }
+
+  .cta__trust {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: #999;
+  }
+
+  /* ========= RESPONSIVE ========= */
+
+  @media (max-width: 1024px) {
+    .cta__inner {
+      padding: 80px 32px;
+    }
+
+    .cta__title {
+      font-size: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cta__inner {
+      padding: 56px 20px;
+      gap: 32px;
+    }
+
+    .cta__title {
+      font-size: 32px;
+    }
+
+    .cta__title .desktop-br {
+      display: none;
+    }
+
+    .cta__btn {
+      width: 100%;
+      padding: 16px 32px;
+    }
+
+    .cta__row {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cta__inner {
+      padding: 48px 16px;
+    }
+
+    .cta__title {
+      font-size: 26px;
+    }
+  }
+</style>
