@@ -1,0 +1,1092 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import { categories, prendaTypes } from "../data/products";
+---
+
+<Layout title="Birmania Inc — Productos">
+  <Header />
+  <main>
+    <!-- Hero -->
+    <section class="phero">
+      <div class="phero__overlay"></div>
+      <div class="phero__inner">
+        <span class="phero__tag">PRODUCTOS</span>
+        <h1 class="phero__title">Uniformes para cada <br />sector y necesidad.</h1>
+        <p class="phero__sub">
+          Diseñamos indumentaria profesional que combina funcionalidad,<br />
+          comodidad y la identidad de tu marca.
+        </p>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters" id="filters">
+      <div class="filters__inner">
+        <div class="dropdown" id="sector-dropdown">
+          <button class="dropdown__trigger" type="button">
+            <span class="dropdown__label">Sector</span>
+            <span class="dropdown__value" id="sector-value">Todos</span>
+            <svg class="dropdown__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="dropdown__menu" id="sector-menu">
+            <button class="dropdown__option is-active" data-sector="todos">Todos</button>
+            {categories.map((cat) => (
+              <button class="dropdown__option" data-sector={cat.id}>{cat.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="dropdown" id="prenda-dropdown">
+          <button class="dropdown__trigger" type="button">
+            <span class="dropdown__label">Prenda</span>
+            <span class="dropdown__value" id="prenda-value">Todos</span>
+            <svg class="dropdown__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="dropdown__menu" id="prenda-menu">
+            {prendaTypes.map((p) => (
+              <button class="dropdown__option" data-prenda={p.id} style={p.id === "todos" ? "" : "display:none"}>{p.label}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category sections (browse mode) -->
+    <div id="browse-view">
+      {categories.map((cat) => (
+        <section class="cat-section" data-cat={cat.id}>
+          <div class="cat-section__inner">
+            <div class="cat-section__header">
+              <h2 class="cat-section__title">{cat.label}</h2>
+              <button class="cat-section__link" data-viewall={cat.id}>Ver todos <span>&rarr;</span></button>
+            </div>
+            <div class="cat-section__carousel">
+              <button class="carousel-arrow carousel-arrow--left" aria-label="Anterior">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div class="carousel-track">
+                {cat.products.map((product) => (
+                  <div class="pcard" data-product-id={product.id} data-type={product.type}>
+                    <div class="pcard__img-wrap">
+                      <img
+                        src={product.variants[0].image}
+                        alt={product.name}
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="pcard__colors">
+                      {product.variants.length > 1 && (
+                        <button class="pcard__color-arrow pcard__color-arrow--left" aria-label="Color anterior">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                        </button>
+                      )}
+                      <div class="pcard__dots">
+                        {product.variants.map((vr, i) => (
+                          <button
+                            class={`pcard__dot ${i === 0 ? "is-active" : ""}`}
+                            data-img={vr.image}
+                            title={vr.color}
+                            aria-label={vr.color}
+                          >
+                            <span style={`background:${vr.hex}${vr.hex === "#e8e8e8" || vr.hex === "#f5f0e8" || vr.hex === "#b5d8e8" || vr.hex === "#a8c8d8" || vr.hex === "#e5e5e5" || vr.hex === "#d0d0d0" || vr.hex === "#7dd3fc" ? ";border:1px solid #ccc" : ""}`}></span>
+                          </button>
+                        ))}
+                      </div>
+                      {product.variants.length > 1 && (
+                        <button class="pcard__color-arrow pcard__color-arrow--right" aria-label="Color siguiente">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                      )}
+                    </div>
+                    <h3 class="pcard__name">{product.name}</h3>
+                    <p class="pcard__desc">{product.description}</p>
+                  </div>
+                ))}
+              </div>
+              <button class="carousel-arrow carousel-arrow--right" aria-label="Siguiente">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+              <button class="mobile-load-more" type="button" hidden>Cargar más</button>
+            </div>
+          </div>
+          <div class="cat-section__divider"></div>
+        </section>
+      ))}
+    </div>
+
+    <!-- Grid view (filter mode) -->
+    <div id="grid-view" class="grid-view" style="display:none">
+      <div class="grid-view__inner">
+        {categories.map((cat) =>
+          cat.products.map((product) => (
+            <div class="pcard" data-product-id={product.id} data-cat={cat.id} data-type={product.type}>
+              <div class="pcard__img-wrap">
+                <img
+                  src={product.variants[0].image}
+                  alt={product.name}
+                  loading="lazy"
+                />
+              </div>
+              <div class="pcard__colors">
+                {product.variants.length > 1 && (
+                  <button class="pcard__color-arrow pcard__color-arrow--left" aria-label="Color anterior">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                )}
+                <div class="pcard__dots">
+                  {product.variants.map((vr, i) => (
+                    <button
+                      class={`pcard__dot ${i === 0 ? "is-active" : ""}`}
+                      data-img={vr.image}
+                      title={vr.color}
+                      aria-label={vr.color}
+                    >
+                      <span style={`background:${vr.hex}${vr.hex === "#e8e8e8" || vr.hex === "#f5f0e8" || vr.hex === "#b5d8e8" || vr.hex === "#a8c8d8" || vr.hex === "#e5e5e5" || vr.hex === "#d0d0d0" || vr.hex === "#7dd3fc" ? ";border:1px solid #ccc" : ""}`}></span>
+                    </button>
+                  ))}
+                </div>
+                {product.variants.length > 1 && (
+                  <button class="pcard__color-arrow pcard__color-arrow--right" aria-label="Color siguiente">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                )}
+              </div>
+              <h3 class="pcard__name">{product.name}</h3>
+              <p class="pcard__desc">{product.description}</p>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+
+    <!-- Products CTA -->
+    <section class="pcta">
+      <div class="pcta__inner">
+        <h2 class="pcta__title">¿No encontrás lo que<br class="desktop-br" /> buscás?</h2>
+        <p class="pcta__sub">
+          Fabricamos uniformes a medida para cualquier rubro.<br />
+          Contactanos y te armamos una propuesta personalizada.
+        </p>
+        <a href="#contacto" class="pcta__btn">Solicitar Cotización</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>
+
+<style>
+  /* ===== HERO ===== */
+  .phero {
+    position: relative;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .phero__overlay {
+    position: absolute;
+    inset: 0;
+    background: url("/images/products-hero-warehouse-overhead.png") center / cover no-repeat;
+    opacity: 0.28;
+  }
+
+  .phero__inner {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 80px 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .phero__tag {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #999;
+  }
+
+  .phero__title {
+    font-family: "Sora", sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    color: #fff;
+    text-align: center;
+    max-width: 800px;
+  }
+
+  .phero__sub {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #888;
+    text-align: center;
+    max-width: 600px;
+  }
+
+  /* ===== FILTERS ===== */
+  .filters {
+    border-bottom: 1px solid #eee;
+    background: #fff;
+  }
+
+  .filters__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  /* ===== DROPDOWNS ===== */
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown__trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 180px;
+  }
+
+  .dropdown__trigger:hover {
+    border-color: #999;
+  }
+
+  .dropdown.is-open .dropdown__trigger {
+    border-color: #000;
+  }
+
+  .dropdown__label {
+    font-family: "Sora", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #999;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .dropdown__value {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #000;
+    flex: 1;
+  }
+
+  .dropdown__chevron {
+    color: #999;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .dropdown.is-open .dropdown__chevron {
+    transform: rotate(180deg);
+  }
+
+  .dropdown__menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    display: none;
+    flex-direction: column;
+    z-index: 200;
+    max-height: 260px;
+    overflow-y: auto;
+  }
+
+  .dropdown.is-open .dropdown__menu {
+    display: flex;
+  }
+
+  .dropdown__option {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #555;
+    padding: 10px 20px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+
+  .dropdown__option:hover {
+    background: #f5f5f5;
+    color: #000;
+  }
+
+  .dropdown__option.is-active {
+    font-weight: 600;
+    color: #000;
+    background: #f0f0f0;
+  }
+
+  /* ===== CATEGORY SECTIONS ===== */
+  .cat-section__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 64px 56px;
+  }
+
+  .cat-section__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  .cat-section__title {
+    font-family: "Sora", sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #000;
+  }
+
+  .cat-section__link {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #777;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: color 0.2s;
+  }
+
+  .cat-section__link:hover {
+    color: #000;
+  }
+
+  .cat-section__divider {
+    max-width: calc(1440px - 112px);
+    margin: 0 auto;
+    height: 1px;
+    background: #ddd;
+  }
+
+  .cat-section:last-child .cat-section__divider {
+    display: none;
+  }
+
+  /* ===== CAROUSEL ===== */
+  .cat-section__carousel {
+    position: relative;
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-100%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s;
+    color: #333;
+  }
+
+  .carousel-arrow:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+
+  .carousel-arrow--left {
+    left: -20px;
+  }
+
+  .carousel-arrow--right {
+    right: -20px;
+  }
+
+  .carousel-arrow:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .mobile-load-more {
+    display: none;
+  }
+
+  /* ===== PRODUCT CARD ===== */
+  .pcard {
+    min-width: calc((100% - 48px) / 3);
+    max-width: calc((100% - 48px) / 3);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pcard__img-wrap {
+    width: 100%;
+    background: #f5f5f5;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .pcard__img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .pcard:hover .pcard__img-wrap img {
+    transform: scale(1.03);
+  }
+
+  .pcard__colors {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+  }
+
+  .pcard__dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .pcard__color-arrow {
+    width: 16px;
+    height: 16px;
+    border: none;
+    background: transparent;
+    color: #666;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .pcard__color-arrow:hover {
+    color: #000;
+  }
+
+  .pcard__color-arrow.is-hidden {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .pcard__dot {
+    width: 22px;
+    height: 22px;
+    padding: 3px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    background: none;
+    transition: border-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pcard__dot span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  .pcard__dot.is-active {
+    border-color: #000;
+  }
+
+  .pcard__name {
+    font-family: "Sora", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .pcard__desc {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #777;
+  }
+
+  /* ===== GRID VIEW ===== */
+  .grid-view__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 48px 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 24px;
+  }
+
+  .grid-view .pcard {
+    min-width: unset;
+    max-width: unset;
+  }
+
+  .grid-view .pcard[data-hidden="true"] {
+    display: none;
+  }
+
+  /* ===== PRODUCTS CTA ===== */
+  .pcta {
+    background: #f5f5f5;
+  }
+
+  .pcta__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 80px 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .pcta__title {
+    font-family: "Sora", sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    color: #000;
+    text-align: center;
+    max-width: 600px;
+  }
+
+  .pcta__sub {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #777;
+    text-align: center;
+    max-width: 500px;
+  }
+
+  .pcta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 16px 36px;
+    transition: opacity 0.2s;
+  }
+
+  .pcta__btn:hover {
+    opacity: 0.85;
+  }
+
+  /* ===== RESPONSIVE ===== */
+
+  @media (max-width: 1200px) {
+    .phero__title {
+      font-size: 42px;
+    }
+
+    .carousel-arrow--left { left: 8px; }
+    .carousel-arrow--right { right: 8px; }
+  }
+
+  @media (max-width: 1024px) {
+    .phero__inner {
+      padding: 64px 32px;
+    }
+
+    .phero__title {
+      font-size: 36px;
+    }
+
+    .filters__inner {
+      padding: 16px 32px;
+    }
+
+    .cat-section__inner {
+      padding: 48px 32px;
+    }
+
+    .cat-section__divider {
+      max-width: calc(100% - 64px);
+    }
+
+    .pcard {
+      min-width: calc((100% - 24px) / 2);
+      max-width: calc((100% - 24px) / 2);
+    }
+
+
+    .grid-view__inner {
+      padding: 40px 32px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pcta__inner {
+      padding: 64px 32px;
+    }
+
+    .pcta__title {
+      font-size: 34px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .phero__inner {
+      padding: 72px 20px 56px;
+    }
+
+    .phero__title {
+      font-size: 27px;
+      line-height: 1.15;
+      letter-spacing: -0.6px;
+      word-spacing: 0.04em;
+    }
+
+    .phero__title br {
+      display: none;
+    }
+
+    .phero__sub br {
+      display: none;
+    }
+
+    .filters__inner {
+      padding: 14px 20px;
+    }
+
+    .dropdown__trigger {
+      min-width: 150px;
+      padding: 8px 14px;
+    }
+
+    .cat-section__inner {
+      padding: 40px 20px;
+    }
+
+    .cat-section__title {
+      font-size: 26px;
+    }
+
+    .cat-section__divider {
+      max-width: calc(100% - 40px);
+    }
+
+    .pcard {
+      min-width: calc(100% - 0px);
+      max-width: calc(100% - 0px);
+    }
+
+
+    .carousel-arrow {
+      display: none;
+    }
+
+    .carousel-track {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      overflow: visible;
+    }
+
+    .carousel-track .pcard {
+      min-width: 100%;
+      max-width: 100%;
+    }
+
+    .carousel-track .pcard[data-mobile-hidden="true"] {
+      display: none;
+    }
+
+    .mobile-load-more {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 24px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 14px 24px;
+      border: 1px solid #ddd;
+      background: #fff;
+      color: #000;
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .mobile-load-more[hidden] {
+      display: none;
+    }
+
+    .grid-view__inner {
+      padding: 32px 20px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px 16px;
+    }
+
+    .pcta__inner {
+      padding: 56px 20px;
+    }
+
+    .pcta__title {
+      font-size: 28px;
+    }
+
+    .pcta__title .desktop-br {
+      display: none;
+    }
+
+    .pcta__btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .phero__inner {
+      padding: 48px 16px;
+    }
+
+    .phero__title {
+      font-size: 26px;
+    }
+
+    .filters__inner {
+      padding: 12px 16px;
+    }
+
+    .cat-section__inner {
+      padding: 32px 16px;
+    }
+
+    .cat-section__divider {
+      max-width: calc(100% - 32px);
+    }
+
+    .grid-view__inner {
+      padding: 24px 16px;
+      grid-template-columns: 1fr;
+    }
+
+    .carousel-track .pcard {
+      min-width: 100%;
+      max-width: 100%;
+    }
+
+    .pcta__inner {
+      padding: 48px 16px;
+    }
+
+    .pcta__title {
+      font-size: 24px;
+    }
+  }
+</style>
+
+<script>
+  import { initWhatsAppFloatTheme } from "../scripts/whatsappFloatTheme";
+
+  initWhatsAppFloatTheme();
+
+  // --- Color navigation helper ---
+  function updateCardArrows(card: Element) {
+    const dots = card.querySelectorAll(".pcard__dot");
+    const current = getActiveIndex(card);
+    const left = card.querySelector(".pcard__color-arrow--left");
+    const right = card.querySelector(".pcard__color-arrow--right");
+    if (left) left.classList.toggle("is-hidden", current === 0);
+    if (right) right.classList.toggle("is-hidden", current === dots.length - 1);
+  }
+
+  function setCardVariant(card: Element, index: number) {
+    const dots = card.querySelectorAll<HTMLButtonElement>(".pcard__dot");
+    if (index < 0 || index >= dots.length) return;
+    dots.forEach((d) => d.classList.remove("is-active"));
+    dots[index].classList.add("is-active");
+    const img = card.querySelector<HTMLImageElement>(".pcard__img-wrap img");
+    const src = dots[index].dataset.img;
+    if (img && src) img.src = src;
+    updateCardArrows(card);
+  }
+
+  function getActiveIndex(card: Element): number {
+    const dots = card.querySelectorAll(".pcard__dot");
+    for (let i = 0; i < dots.length; i++) {
+      if (dots[i].classList.contains("is-active")) return i;
+    }
+    return 0;
+  }
+
+  // Init: hide left arrows on all cards (start at index 0)
+  document.querySelectorAll(".pcard").forEach((card) => updateCardArrows(card));
+
+  // --- Color dot swapping ---
+  document.querySelectorAll<HTMLButtonElement>(".pcard__dot").forEach((dot) => {
+    dot.addEventListener("click", () => {
+      const card = dot.closest(".pcard");
+      if (!card) return;
+      const dots = Array.from(card.querySelectorAll(".pcard__dot"));
+      setCardVariant(card, dots.indexOf(dot));
+    });
+  });
+
+  // --- Color arrows ---
+  document.querySelectorAll<HTMLButtonElement>(".pcard__color-arrow").forEach((arrow) => {
+    arrow.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const card = arrow.closest(".pcard");
+      if (!card) return;
+      const dots = card.querySelectorAll(".pcard__dot");
+      const total = dots.length;
+      const current = getActiveIndex(card);
+      const dir = arrow.classList.contains("pcard__color-arrow--left") ? -1 : 1;
+      const next = current + dir;
+      setCardVariant(card, next);
+    });
+  });
+
+  // --- Carousel arrows ---
+  document.querySelectorAll<HTMLElement>(".cat-section__carousel").forEach((carousel) => {
+    const track = carousel.querySelector<HTMLElement>(".carousel-track");
+    const leftBtn = carousel.querySelector<HTMLButtonElement>(".carousel-arrow--left");
+    const rightBtn = carousel.querySelector<HTMLButtonElement>(".carousel-arrow--right");
+    if (!track || !leftBtn || !rightBtn) return;
+
+    const getCardWidth = () => {
+      const card = track.querySelector<HTMLElement>(".pcard");
+      if (!card) return 300;
+      return card.offsetWidth + 24; // card width + gap
+    };
+
+    const updateArrows = () => {
+      leftBtn.disabled = track.scrollLeft <= 5;
+      rightBtn.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
+    };
+
+    leftBtn.addEventListener("click", () => {
+      track.scrollBy({ left: -getCardWidth(), behavior: "smooth" });
+    });
+
+    rightBtn.addEventListener("click", () => {
+      track.scrollBy({ left: getCardWidth(), behavior: "smooth" });
+    });
+
+    track.addEventListener("scroll", updateArrows);
+    updateArrows();
+
+    new ResizeObserver(() => {
+      updateArrows();
+      // Hide both arrows if all cards fit
+      const allFit = track.scrollWidth <= track.clientWidth + 5;
+      leftBtn.style.display = allFit ? "none" : "";
+      rightBtn.style.display = allFit ? "none" : "";
+    }).observe(track);
+  });
+
+  // --- Dropdowns ---
+  const sectorDropdown = document.getElementById("sector-dropdown")!;
+  const prendaDropdown = document.getElementById("prenda-dropdown")!;
+  const sectorMenu = document.getElementById("sector-menu")!;
+  const prendaMenu = document.getElementById("prenda-menu")!;
+  const sectorValue = document.getElementById("sector-value")!;
+  const prendaValue = document.getElementById("prenda-value")!;
+  const browseView = document.getElementById("browse-view")!;
+  const gridView = document.getElementById("grid-view")!;
+  const mobileProductsQuery = window.matchMedia("(max-width: 768px)");
+
+  let activeSector = "todos";
+  let activePrenda = "todos";
+
+  function syncMobileProductLists() {
+    document.querySelectorAll<HTMLElement>(".cat-section").forEach((section) => {
+      const cards = Array.from(section.querySelectorAll<HTMLElement>(".carousel-track .pcard"));
+      const loadMoreButton = section.querySelector<HTMLButtonElement>(".mobile-load-more");
+
+      if (!loadMoreButton) return;
+
+      const isExpanded = section.dataset.mobileExpanded === "true";
+      const shouldCollapse = mobileProductsQuery.matches && cards.length > 3 && !isExpanded;
+
+      cards.forEach((card, index) => {
+        card.dataset.mobileHidden = shouldCollapse && index >= 3 ? "true" : "false";
+      });
+
+      loadMoreButton.hidden = !(mobileProductsQuery.matches && cards.length > 3 && !isExpanded);
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".mobile-load-more").forEach((button) => {
+    button.addEventListener("click", () => {
+      const section = button.closest<HTMLElement>(".cat-section");
+      if (!section) return;
+      section.dataset.mobileExpanded = "true";
+      syncMobileProductLists();
+    });
+  });
+
+  mobileProductsQuery.addEventListener("change", syncMobileProductLists);
+  syncMobileProductLists();
+
+  // Toggle dropdown open/close
+  function toggleDropdown(dropdown: HTMLElement) {
+    const wasOpen = dropdown.classList.contains("is-open");
+    // Close all
+    document.querySelectorAll(".dropdown.is-open").forEach((d) => d.classList.remove("is-open"));
+    if (!wasOpen) dropdown.classList.add("is-open");
+  }
+
+  sectorDropdown.querySelector(".dropdown__trigger")!.addEventListener("click", () => {
+    toggleDropdown(sectorDropdown);
+  });
+
+  prendaDropdown.querySelector(".dropdown__trigger")!.addEventListener("click", () => {
+    toggleDropdown(prendaDropdown);
+  });
+
+  // Close dropdowns on outside click
+  document.addEventListener("click", (e) => {
+    if (!(e.target as HTMLElement).closest(".dropdown")) {
+      document.querySelectorAll(".dropdown.is-open").forEach((d) => d.classList.remove("is-open"));
+    }
+  });
+
+  function setView(mode: "browse" | "grid") {
+    browseView.style.display = mode === "browse" ? "" : "none";
+    gridView.style.display = mode === "grid" ? "" : "none";
+  }
+
+  function updatePrendaOptions() {
+    const options = prendaMenu.querySelectorAll<HTMLButtonElement>(".dropdown__option");
+    if (activeSector === "todos") {
+      options.forEach((o) => {
+        o.style.display = o.dataset.prenda === "todos" ? "" : "none";
+      });
+      return;
+    }
+
+    const gridCards = gridView.querySelectorAll<HTMLElement>(`.pcard[data-cat="${activeSector}"]`);
+    const availableTypes = new Set<string>(["todos"]);
+    gridCards.forEach((c) => {
+      if (c.dataset.type) availableTypes.add(c.dataset.type);
+    });
+
+    options.forEach((o) => {
+      o.style.display = availableTypes.has(o.dataset.prenda!) ? "" : "none";
+    });
+  }
+
+  function applyFilters() {
+    if (activeSector === "todos") {
+      setView("browse");
+      document.querySelectorAll<HTMLElement>(".cat-section").forEach((s) => {
+        s.style.display = "";
+      });
+      return;
+    }
+
+    setView("grid");
+    gridView.querySelectorAll<HTMLElement>(".pcard").forEach((card) => {
+      const matchSector = card.dataset.cat === activeSector;
+      const matchPrenda = activePrenda === "todos" || card.dataset.type === activePrenda;
+      card.dataset.hidden = String(!(matchSector && matchPrenda));
+    });
+  }
+
+  function selectSector(id: string, label: string) {
+    activeSector = id;
+    activePrenda = "todos";
+    sectorValue.textContent = label;
+    prendaValue.textContent = "Todos";
+
+    sectorMenu.querySelectorAll(".dropdown__option").forEach((o) => {
+      o.classList.toggle("is-active", (o as HTMLButtonElement).dataset.sector === id);
+    });
+    prendaMenu.querySelectorAll(".dropdown__option").forEach((o) => {
+      o.classList.toggle("is-active", (o as HTMLButtonElement).dataset.prenda === "todos");
+    });
+
+    updatePrendaOptions();
+    applyFilters();
+    sectorDropdown.classList.remove("is-open");
+  }
+
+  // Sector option click
+  sectorMenu.addEventListener("click", (e) => {
+    const option = (e.target as HTMLElement).closest<HTMLButtonElement>(".dropdown__option");
+    if (!option) return;
+    selectSector(option.dataset.sector!, option.textContent!.trim());
+  });
+
+  // Prenda option click
+  prendaMenu.addEventListener("click", (e) => {
+    const option = (e.target as HTMLElement).closest<HTMLButtonElement>(".dropdown__option");
+    if (!option) return;
+
+    activePrenda = option.dataset.prenda!;
+    prendaValue.textContent = option.textContent!.trim();
+
+    prendaMenu.querySelectorAll(".dropdown__option").forEach((o) => o.classList.remove("is-active"));
+    option.classList.add("is-active");
+
+    applyFilters();
+    prendaDropdown.classList.remove("is-open");
+  });
+
+  // --- "Ver todos" buttons ---
+  document.querySelectorAll<HTMLButtonElement>("[data-viewall]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const catId = btn.dataset.viewall!;
+      const label = btn.closest(".cat-section")?.querySelector(".cat-section__title")?.textContent || catId;
+      selectSector(catId, label);
+      document.getElementById("filters")?.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+</script>

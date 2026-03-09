@@ -11,6 +11,11 @@ const surfaceConfigs: SurfaceConfig[] = [
   { selector: ".brand", theme: "light" },
   { selector: ".metrics", theme: "dark" },
   { selector: ".cta", theme: "light" },
+  { selector: ".phero", theme: "dark" },
+  { selector: ".filters", theme: "light" },
+  { selector: ".cat-section", theme: "light" },
+  { selector: ".grid-view", theme: "light" },
+  { selector: ".pcta", theme: "light" },
   { selector: ".footer", theme: "dark" },
 ];
 

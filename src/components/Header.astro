@@ -1,15 +1,21 @@
 ---
+interface Props {
+  intro?: boolean;
+}
+
+const { intro = false } = Astro.props;
+
 const navLinks = [
-  { label: "Productos", href: "#productos" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Rubros", href: "#rubros" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Productos", href: "/productos" },
+  { label: "Nosotros", href: "/#nosotros" },
+  { label: "Rubros", href: "/#rubros" },
+  { label: "Contacto", href: "/#contacto" },
 ];
 
 const whatsappNumber = "5491100000000";
 ---
 
-<header class="header header--intro" id="header">
+<header class={`header${intro ? " header--intro" : ""}`} id="header">
   <div class="header__inner">
     <a href="/" class="header__logo">
       <img src="/images/Birmania-Logo.webp" alt="Birmania Inc" width="181" height="65" />
