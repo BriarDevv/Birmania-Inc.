@@ -24,42 +24,86 @@ const v = (color: string, hex: string, file: string, folder: string): ProductVar
   image: `/images/products/${folder}/${file}`,
 });
 
-export const categories: Category[] = [
+const preferredProductColors: Record<string, string> = {
+  "corp-ambo": "Azul",
+  "corp-buzo": "Azul",
+  "corp-buzopolar": "Gris",
+  "corp-camisachino": "Celeste y Beige",
+  "corp-chaleco": "Negro",
+  "corp-chomba": "Azul",
+  "corp-sweater": "Azul",
+  "ind-buzo": "Negro",
+  "ind-buzocr": "Azul",
+  "ind-buzopolar": "Gris",
+  "ind-chaleco": "Gris",
+  "ind-gorra": "Azul",
+  "ind-pantalon": "Negro",
+  "ind-ropatrabajo": "Azul",
+  "seg-ambo": "Negro",
+  "seg-buzopolar": "Negro",
+  "seg-chaleco": "Negro",
+  "seg-gorra": "Negro",
+  "seg-rompevientos": "Negro",
+  "edu-buzo": "Azul",
+  "edu-buzocr": "Gris",
+  "edu-camperita": "Negro",
+  "edu-remera": "Blanco",
+  "edu-rompevientos": "Azul",
+  "edu-sweater": "Terracota",
+  "gas-buzocr": "Negro",
+  "gas-delantalpollera": "Blanco y Negro",
+  "gas-delantalentero": "Negro",
+  "gas-gorra": "Negro",
+  "gas-remera": "Negro",
+  "gas-trajecocina": "Blanco",
+  "sal-ambos": "Celeste",
+  "sal-ambosalt": "Blanco",
+  "sal-saco": "Blanco",
+};
+
+const prioritizePreferredVariants = (variants: ProductVariant[], preferredColor?: string): ProductVariant[] => {
+  if (!preferredColor) return variants;
+
+  const preferredIndex = variants.findIndex((variant) => variant.color === preferredColor);
+  if (preferredIndex <= 0) return variants;
+
+  const nextVariants = [...variants];
+  const [preferredVariant] = nextVariants.splice(preferredIndex, 1);
+
+  return preferredVariant ? [preferredVariant, ...nextVariants] : variants;
+};
+
+const fullSetProducts = new Set([
+  "corp-ambo",
+  "corp-camisachino",
+  "ind-ropatrabajo",
+  "seg-ambo",
+  "sal-ambos",
+  "sal-ambosalt",
+]);
+
+const enhanceProductDescription = (product: Product): string => {
+  const baseDescription = product.description.trim().replace(/\.$/, "");
+  const setNote = fullSetProducts.has(product.id)
+    ? "Conjunto completo"
+    : "Con parte de abajo opcional";
+
+  return `${baseDescription}. ${setNote}. Color a elección, con o sin bordado o DTF.`;
+};
+
+const rawCategories: Category[] = [
   {
     id: "corporativo",
     label: "Corporativo",
     products: [
       {
         id: "corp-ambo",
-        name: "Ambo Corporativo",
+        name: "Ambo",
         description: "Conjunto formal para ambientes ejecutivos",
         type: "ambo",
         variants: [
           v("Azul", "#2563eb", "Ambo-Azul-Corporativo.png", "corporativo"),
           v("Negro", "#111", "Ambo-Negro-Corporativo.png", "corporativo"),
-        ],
-      },
-      {
-        id: "corp-buzo",
-        name: "Buzo Corporativo",
-        description: "Buzo con cierre ideal para uso diario",
-        type: "buzo",
-        variants: [
-          v("Azul", "#2563eb", "Buzo-Azul-Corporativo.png", "corporativo"),
-          v("Blanco", "#e8e8e8", "Buzo-Blanco-Corporativo.png", "corporativo"),
-          v("Gris", "#9ca3af", "Buzo-Gris-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "Buzo-Negro-Corporativo.png", "corporativo"),
-        ],
-      },
-      {
-        id: "corp-buzopolar",
-        name: "Buzo Polar",
-        description: "Abrigo polar para días fríos",
-        type: "buzo",
-        variants: [
-          v("Azul", "#2563eb", "BuzoPolar-Azul-Corporativo.png", "corporativo"),
-          v("Gris", "#9ca3af", "BuzoPolar-Gris-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "BuzoPolar-Negro-Corporativo.png", "corporativo"),
         ],
       },
       {
@@ -77,8 +121,21 @@ export const categories: Category[] = [
         ],
       },
       {
+        id: "corp-sweater",
+        name: "Sweater",
+        description: "Sweater tejido para look profesional",
+        type: "sweater",
+        variants: [
+          v("Azul", "#2563eb", "Sweater-Azul-Corporativo.png", "corporativo"),
+          v("Beige", "#d4a574", "Sweater-beige-Corporativo.png", "corporativo"),
+          v("Blanco", "#e8e8e8", "Sweater-Blanco-Corporativo.png", "corporativo"),
+          v("Gris", "#9ca3af", "Sweater-Gris-Corporativo.png", "corporativo"),
+          v("Negro", "#111", "Sweater-Negro-Corporativo.png", "corporativo"),
+        ],
+      },
+      {
         id: "corp-chaleco",
-        name: "Chaleco Corporativo",
+        name: "Chaleco",
         description: "Chaleco versátil para uniformar equipos",
         type: "chaleco",
         variants: [
@@ -90,7 +147,7 @@ export const categories: Category[] = [
       },
       {
         id: "corp-chomba",
-        name: "Chomba Corporativa",
+        name: "Chomba",
         description: "Chomba clásica con cuello",
         type: "chomba",
         variants: [
@@ -102,16 +159,26 @@ export const categories: Category[] = [
         ],
       },
       {
-        id: "corp-sweater",
-        name: "Sweater Corporativo",
-        description: "Sweater tejido para look profesional",
-        type: "sweater",
+        id: "corp-buzo",
+        name: "Buzo",
+        description: "Buzo con cierre ideal para uso diario",
+        type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "Sweater-Azul-Corporativo.png", "corporativo"),
-          v("Beige", "#d4a574", "Sweater-beige-Corporativo.png", "corporativo"),
-          v("Blanco", "#e8e8e8", "Sweater-Blanco-Corporativo.png", "corporativo"),
-          v("Gris", "#9ca3af", "Sweater-Gris-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "Sweater-Negro-Corporativo.png", "corporativo"),
+          v("Azul", "#2563eb", "Buzo-Azul-Corporativo.png", "corporativo"),
+          v("Blanco", "#e8e8e8", "Buzo-Blanco-Corporativo.png", "corporativo"),
+          v("Gris", "#9ca3af", "Buzo-Gris-Corporativo.png", "corporativo"),
+          v("Negro", "#111", "Buzo-Negro-Corporativo.png", "corporativo"),
+        ],
+      },
+      {
+        id: "corp-buzopolar",
+        name: "Buzo Polar",
+        description: "Abrigo polar para días fríos",
+        type: "buzo",
+        variants: [
+          v("Gris", "#9ca3af", "BuzoPolar-Gris-Corporativo.png", "corporativo"),
+          v("Azul", "#2563eb", "BuzoPolar-Azul-Corporativo.png", "corporativo"),
+          v("Negro", "#111", "BuzoPolar-Negro-Corporativo.png", "corporativo"),
         ],
       },
     ],
@@ -122,7 +189,7 @@ export const categories: Category[] = [
     products: [
       {
         id: "ind-buzo",
-        name: "Buzo Industrial",
+        name: "Buzo",
         description: "Buzo resistente para trabajo pesado",
         type: "buzo",
         variants: [
@@ -157,7 +224,7 @@ export const categories: Category[] = [
       },
       {
         id: "ind-chaleco",
-        name: "Chaleco Industrial",
+        name: "Chaleco",
         description: "Chaleco de alta visibilidad",
         type: "chaleco",
         variants: [
@@ -169,7 +236,7 @@ export const categories: Category[] = [
       },
       {
         id: "ind-gorra",
-        name: "Gorra Industrial",
+        name: "Gorra",
         description: "Gorra de protección y confort",
         type: "gorra",
         variants: [
@@ -208,7 +275,7 @@ export const categories: Category[] = [
     products: [
       {
         id: "seg-ambo",
-        name: "Ambo de Seguridad",
+        name: "Ambo",
         description: "Uniforme completo para personal de seguridad",
         type: "ambo",
         variants: [
@@ -229,7 +296,7 @@ export const categories: Category[] = [
       },
       {
         id: "seg-chaleco",
-        name: "Chaleco de Seguridad",
+        name: "Chaleco",
         description: "Chaleco identificatorio de seguridad",
         type: "chaleco",
         variants: [
@@ -241,7 +308,7 @@ export const categories: Category[] = [
       },
       {
         id: "seg-gorra",
-        name: "Gorra de Seguridad",
+        name: "Gorra",
         description: "Gorra para personal de vigilancia",
         type: "gorra",
         variants: [
@@ -272,7 +339,7 @@ export const categories: Category[] = [
     products: [
       {
         id: "edu-buzo",
-        name: "Buzo Escolar",
+        name: "Buzo",
         description: "Buzo con cierre para instituciones educativas",
         type: "buzo",
         variants: [
@@ -296,7 +363,7 @@ export const categories: Category[] = [
       },
       {
         id: "edu-camperita",
-        name: "Camperita Escolar",
+        name: "Camperita",
         description: "Campera liviana para el colegio",
         type: "campera",
         variants: [
@@ -308,7 +375,7 @@ export const categories: Category[] = [
       },
       {
         id: "edu-remera",
-        name: "Remera Escolar",
+        name: "Remera",
         description: "Remera para uniforme escolar",
         type: "remera",
         variants: [
@@ -320,7 +387,7 @@ export const categories: Category[] = [
       },
       {
         id: "edu-rompevientos",
-        name: "Rompevientos Escolar",
+        name: "Rompevientos",
         description: "Campera impermeable escolar",
         type: "campera",
         variants: [
@@ -332,12 +399,12 @@ export const categories: Category[] = [
       },
       {
         id: "edu-sweater",
-        name: "Sweater Escolar",
+        name: "Sweater",
         description: "Sweater tejido para uniforme",
         type: "sweater",
         variants: [
           v("Azul", "#2563eb", "Sweater-Azul-Educacion.png", "educacion"),
-          v("Beige", "#d4a574", "Sweater-Beige-Educacion.png", "educacion"),
+          v("Terracota", "#d4a574", "Sweater-Beige-Educacion.png", "educacion"),
           v("Blanco", "#e8e8e8", "Sweater-Blanco-Educacion.png", "educacion"),
           v("Gris", "#9ca3af", "Sweater-Gris-Educacion.png", "educacion"),
           v("Negro", "#111", "Sweater-Negro-Educacion.png", "educacion"),
@@ -383,7 +450,7 @@ export const categories: Category[] = [
       },
       {
         id: "gas-gorra",
-        name: "Gorra Gastronómica",
+        name: "Gorra",
         description: "Gorra para ambientes de cocina",
         type: "gorra",
         variants: [
@@ -394,7 +461,7 @@ export const categories: Category[] = [
       },
       {
         id: "gas-remera",
-        name: "Remera Gastronómica",
+        name: "Remera",
         description: "Remera para personal de salón",
         type: "remera",
         variants: [
@@ -459,6 +526,15 @@ export const categories: Category[] = [
     ],
   },
 ];
+
+export const categories: Category[] = rawCategories.map((category) => ({
+  ...category,
+  products: category.products.map((product) => ({
+    ...product,
+    description: enhanceProductDescription(product),
+    variants: prioritizePreferredVariants(product.variants, preferredProductColors[product.id]),
+  })),
+}));
 
 export const prendaTypes = [
   { id: "todos", label: "Todos" },
