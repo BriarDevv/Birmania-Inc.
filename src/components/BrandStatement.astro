@@ -1,0 +1,152 @@
+---
+
+---
+
+<section class="brand" id="nosotros">
+  <div class="brand__inner">
+    <div class="brand__left">
+      <span class="brand__tag">QUIÉNES SOMOS</span>
+      <h2 class="brand__title">
+        Más que uniformes. <br class="desktop-br" />Equipamos empresas.
+      </h2>
+      <p class="brand__body">
+        Con más de 25 años de experiencia, somos una empresa dedicada a la confección de uniformes de trabajo para distintos rubros y actividades. A lo largo de nuestra trayectoria hemos trabajado junto a numerosas empresas, brindando soluciones textiles que combinan calidad, comodidad y durabilidad.
+      </p>
+      <p class="brand__body">
+        Nos especializamos en el diseño y la confección de uniformes adaptados a las necesidades de cada cliente. Nuestro compromiso es ofrecer prendas que representen la identidad de cada organización y que acompañen a sus equipos.
+      </p>
+      <p class="brand__body">
+        La experiencia, la atención personalizada y el cuidado en cada detalle son los pilares que nos han permitido crecer y consolidarnos durante más de dos décadas en el sector.
+      </p>
+    </div>
+    <div class="brand__image">
+      <img src="/images/brand-statement.jpg" alt="Taller de confección de uniformes" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand {
+    background: #fff;
+  }
+
+  .brand__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 100px 56px;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+  }
+
+  .brand__left {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 560px;
+    flex-shrink: 0;
+  }
+
+  .brand__tag {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #999;
+  }
+
+  .brand__title {
+    font-family: "Sora", sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    color: #000;
+  }
+
+  .brand__body {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #777;
+    max-width: 520px;
+  }
+
+  .brand__image {
+    flex: 1;
+    height: 480px;
+    overflow: hidden;
+  }
+
+  .brand__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ========= RESPONSIVE ========= */
+
+  @media (max-width: 1024px) {
+    .brand__inner {
+      padding: 80px 32px;
+      gap: 48px;
+    }
+
+    .brand__left {
+      width: 420px;
+    }
+
+    .brand__title {
+      font-size: 34px;
+    }
+
+    .brand__image {
+      height: 400px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .brand__inner {
+      flex-direction: column;
+      padding: 56px 20px;
+      gap: 40px;
+    }
+
+    .brand__left {
+      width: 100%;
+      gap: 24px;
+    }
+
+    .brand__title {
+      font-size: 28px;
+    }
+
+    .brand__title .desktop-br {
+      display: none;
+    }
+
+    .brand__body {
+      max-width: 100%;
+    }
+
+    .brand__image {
+      width: 100%;
+      height: 300px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .brand__inner {
+      padding: 48px 16px;
+    }
+
+    .brand__title {
+      font-size: 24px;
+    }
+
+    .brand__image {
+      height: 240px;
+    }
+  }
+</style>
