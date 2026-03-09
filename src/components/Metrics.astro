@@ -1,0 +1,208 @@
+---
+const metrics = [
+  { number: "+500", label: "Empresas equipadas\nen todo el país" },
+  { number: "+25", label: "Años de experiencia\nen el mercado" },
+  { number: "98%", label: "Tasa de recompra\ny satisfacción" },
+];
+---
+
+<section class="metrics">
+  <div class="metrics__inner">
+    <div class="metrics__left">
+      <span class="metrics__tag">TRAYECTORIA</span>
+      <h2 class="metrics__title">
+        Números que hablan <br class="desktop-br" />por nosotros.
+      </h2>
+    </div>
+    <div class="metrics__grid">
+      {metrics.map((m, i) => (
+        <div class:list={["metrics__item", { "metrics__item--bordered": i > 0 }]}>
+          <span class="metrics__number">{m.number}</span>
+          <span class="metrics__label" set:html={m.label.replace("\n", "<br />")} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .metrics {
+    background: #000;
+  }
+
+  .metrics__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 64px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 80px;
+  }
+
+  .metrics__left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 440px;
+    flex-shrink: 0;
+  }
+
+  .metrics__tag {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #777;
+  }
+
+  .metrics__title {
+    font-family: "Sora", sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    color: #fff;
+  }
+
+  .metrics__grid {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+  }
+
+  .metrics__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0 48px;
+  }
+
+  .metrics__item:first-child {
+    padding-left: 0;
+  }
+
+  .metrics__item:last-child {
+    padding-right: 0;
+  }
+
+  .metrics__item--bordered {
+    border-left: 1px solid #333;
+  }
+
+  .metrics__number {
+    font-family: "Sora", sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -3px;
+    color: #fff;
+  }
+
+  .metrics__label {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #777;
+    text-align: center;
+  }
+
+  /* ========= RESPONSIVE ========= */
+
+  @media (max-width: 1200px) {
+    .metrics__left {
+      width: 320px;
+    }
+
+    .metrics__title {
+      font-size: 32px;
+    }
+
+    .metrics__number {
+      font-size: 48px;
+    }
+
+    .metrics__item {
+      padding: 0 32px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .metrics__inner {
+      flex-direction: column;
+      padding: 56px 32px;
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    .metrics__left {
+      width: 100%;
+    }
+
+    .metrics__grid {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .metrics__inner {
+      padding: 48px 20px;
+      gap: 40px;
+    }
+
+    .metrics__title {
+      font-size: 28px;
+    }
+
+    .metrics__title .desktop-br {
+      display: none;
+    }
+
+    .metrics__grid {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 32px;
+    }
+
+    .metrics__item {
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      padding: 0;
+      width: 100%;
+    }
+
+    .metrics__item--bordered {
+      border-left: none;
+      border-top: 1px solid #333;
+      padding-top: 32px;
+    }
+
+    .metrics__number {
+      font-size: 48px;
+      min-width: 120px;
+    }
+
+    .metrics__label {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .metrics__inner {
+      padding: 40px 16px;
+    }
+
+    .metrics__title {
+      font-size: 24px;
+    }
+
+    .metrics__number {
+      font-size: 40px;
+      min-width: 100px;
+    }
+  }
+</style>
