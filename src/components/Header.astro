@@ -38,8 +38,8 @@ const whatsappNumber = "5491100000000";
       <span class="header__hamburger-line"></span>
       <span class="header__hamburger-line"></span>
     </button>
+    <div class="header__divider"></div>
   </div>
-  <div class="header__divider"></div>
 </header>
 
 <!-- Mobile overlay -->
@@ -92,13 +92,15 @@ const whatsappNumber = "5491100000000";
   }
 
   .header__inner {
+    --header-side-padding: 56px;
     max-width: 1440px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 95px;
-    padding: 24px 56px;
+    padding: 24px var(--header-side-padding);
+    position: relative;
   }
 
   .header__logo img {
@@ -134,11 +136,11 @@ const whatsappNumber = "5491100000000";
     gap: 8px;
     background: #000;
     padding: 12px 28px;
-    transition: opacity 0.2s;
+    transition: background 0.3s ease;
   }
 
   .header__cta:hover {
-    opacity: 0.85;
+    background: #25D366;
   }
 
   .header__cta-icon {
@@ -146,9 +148,19 @@ const whatsappNumber = "5491100000000";
     width: auto;
   }
 
+  .header__cta-icon path {
+    transition: fill 0.3s ease;
+  }
+
+  .header__cta:hover .header__cta-icon path {
+    fill: #fff;
+  }
+
   .header__divider {
-    max-width: 1440px;
-    margin: 0 auto;
+    position: absolute;
+    bottom: 0;
+    left: var(--header-side-padding);
+    right: var(--header-side-padding);
     height: 1px;
     background: #ddd;
   }
@@ -374,7 +386,8 @@ const whatsappNumber = "5491100000000";
 
   @media (max-width: 1024px) {
     .header__inner {
-      padding: 16px 32px;
+      --header-side-padding: 32px;
+      padding: 16px var(--header-side-padding);
       height: 72px;
     }
 
@@ -402,8 +415,14 @@ const whatsappNumber = "5491100000000";
 
   @media (max-width: 768px) {
     .header__inner {
-      padding: 14px 20px;
+      --header-side-padding: 20px;
+      padding: 14px var(--header-side-padding);
       height: 64px;
+    }
+
+    .header__divider {
+      left: 0;
+      right: 0;
     }
 
     .header__logo img {
