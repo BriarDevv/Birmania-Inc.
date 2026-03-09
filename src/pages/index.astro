@@ -44,7 +44,14 @@ import WhatsAppFloat from "../components/WhatsAppFloat.astro";
   // Hero entrance timeline
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-  tl.from("#header", { y: -20, opacity: 0, duration: 0.6 });
+  tl.to("#header", {
+    y: 0,
+    opacity: 1,
+    duration: 0.6,
+    onComplete: () => {
+      document.getElementById("header")?.classList.remove("header--intro");
+    },
+  });
   tl.from(".hero__tag", { x: -30, opacity: 0, duration: 0.5 }, "-=0.2");
   tl.from(".hero__headline", { y: 40, opacity: 0, duration: 0.7 }, "-=0.3");
   tl.from(".hero__sub", { y: 20, opacity: 0, duration: 0.5 }, "-=0.3");
