@@ -1,0 +1,138 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Sectors from "../components/Sectors.astro";
+import BrandStatement from "../components/BrandStatement.astro";
+import Metrics from "../components/Metrics.astro";
+import FinalCTA from "../components/FinalCTA.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+---
+
+<Layout title="Birmania Inc — Uniformes Corporativos">
+  <Header />
+  <main>
+    <Hero />
+    <Sectors />
+    <BrandStatement />
+    <div class="divider"></div>
+    <Metrics />
+    <FinalCTA />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>
+
+<style>
+  .divider {
+    max-width: 1440px;
+    margin: 0 auto;
+    height: 1px;
+    background: #ddd;
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero entrance timeline
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+  tl.from("#header", { y: -20, opacity: 0, duration: 0.6 });
+  tl.from(".hero__tag", { x: -30, opacity: 0, duration: 0.5 }, "-=0.2");
+  tl.from(".hero__headline", { y: 40, opacity: 0, duration: 0.7 }, "-=0.3");
+  tl.from(".hero__sub", { y: 20, opacity: 0, duration: 0.5 }, "-=0.3");
+  tl.fromTo(
+    ".hero__cta",
+    { y: 20, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.4, stagger: 0.15 },
+    "-=0.2"
+  );
+  tl.fromTo(
+    ".hero__image",
+    { x: 60, opacity: 0 },
+    { x: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
+    "-=0.4"
+  );
+  tl.fromTo(
+    ".whatsapp-float",
+    { scale: 0, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" },
+    "-=0.3"
+  );
+
+  // Scroll-triggered animations
+  const scrollDefaults = {
+    start: "top 85%",
+    once: true,
+  };
+
+  // Sectors
+  gsap.from(".sectors__header", {
+    scrollTrigger: { trigger: ".sectors__header", ...scrollDefaults },
+    y: 40,
+    opacity: 0,
+    duration: 0.7,
+  });
+
+  gsap.from(".sectors__card", {
+    scrollTrigger: { trigger: ".sectors__grid", ...scrollDefaults },
+    y: 40,
+    opacity: 0,
+    duration: 0.5,
+    stagger: 0.1,
+  });
+
+  // Brand Statement
+  gsap.from(".brand__left", {
+    scrollTrigger: { trigger: ".brand__inner", ...scrollDefaults },
+    x: -40,
+    opacity: 0,
+    duration: 0.7,
+  });
+
+  gsap.from(".brand__image", {
+    scrollTrigger: { trigger: ".brand__inner", ...scrollDefaults },
+    x: 40,
+    opacity: 0,
+    duration: 0.7,
+    delay: 0.2,
+  });
+
+  // Metrics
+  gsap.from(".metrics__left", {
+    scrollTrigger: { trigger: ".metrics__inner", ...scrollDefaults },
+    y: 30,
+    opacity: 0,
+    duration: 0.6,
+  });
+
+  gsap.from(".metrics__item", {
+    scrollTrigger: { trigger: ".metrics__grid", ...scrollDefaults },
+    y: 30,
+    opacity: 0,
+    duration: 0.5,
+    stagger: 0.15,
+  });
+
+  // Final CTA
+  gsap.from(".cta__inner > *", {
+    scrollTrigger: { trigger: ".cta__inner", ...scrollDefaults },
+    y: 30,
+    opacity: 0,
+    duration: 0.5,
+    stagger: 0.12,
+  });
+
+  // Footer
+  gsap.from(".footer__top", {
+    scrollTrigger: { trigger: ".footer__inner", ...scrollDefaults },
+    y: 20,
+    opacity: 0,
+    duration: 0.6,
+  });
+</script>
