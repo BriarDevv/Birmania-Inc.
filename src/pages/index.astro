@@ -8,9 +8,30 @@ import Metrics from "../components/Metrics.astro";
 import FinalCTA from "../components/FinalCTA.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import { buildOrganizationSchema, buildWebPageSchema } from "../lib/seo";
+
+const homeTitle = "Uniformes para Empresas en Argentina | Birmania Inc";
+const homeDescription =
+  "Diseñamos, producimos y entregamos uniformes para empresas, instituciones y equipos de trabajo en Argentina. Soluciones a medida con color a elección, bordado o estampado DTF.";
+
+const homeStructuredData = [
+  buildOrganizationSchema(),
+  buildWebPageSchema({
+    name: homeTitle,
+    description: homeDescription,
+    path: "/",
+    image: "/images/Banner.webp",
+  }),
+];
 ---
 
-<Layout title="Birmania Inc — Uniformes para Empresas">
+<Layout
+  title={homeTitle}
+  description={homeDescription}
+  path="/"
+  image="/images/Banner.webp"
+  structuredData={homeStructuredData}
+>
   <Header intro />
   <main>
     <Hero />
@@ -52,9 +73,9 @@ import WhatsAppFloat from "../components/WhatsAppFloat.astro";
       document.getElementById("header")?.classList.remove("header--intro");
     },
   });
-  tl.from(".hero__tag", { x: -30, opacity: 0, duration: 0.5 }, "-=0.2");
-  tl.from(".hero__headline", { y: 40, opacity: 0, duration: 0.7 }, "-=0.3");
-  tl.from(".hero__sub", { y: 20, opacity: 0, duration: 0.5 }, "-=0.3");
+  tl.from(".hero__tag", { x: -20, opacity: 0, duration: 0.3 }, "-=0.2");
+  tl.from(".hero__headline", { y: 28, opacity: 0, duration: 0.44 }, "-=0.16");
+  tl.from(".hero__sub", { y: 14, opacity: 0, duration: 0.3 }, "-=0.24");
   tl.fromTo(
     ".hero__cta",
     { y: 20, opacity: 0 },

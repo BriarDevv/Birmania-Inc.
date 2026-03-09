@@ -3,11 +3,58 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
-import { categories, prendaTypes } from "../data/products";
+import { categories } from "../data/products";
+import { buildBreadcrumbSchema, buildOrganizationSchema, buildWebPageSchema } from "../lib/seo";
+
+const productsTitle = "Productos | Uniformes Laborales, Corporativos e Institucionales | Birmania Inc";
+const productsDescription =
+  "Explorá uniformes corporativos, de seguridad, gastronomía, salud, industria, educación y más. Prendas y conjuntos con color a elección, bordado o estampado DTF.";
+
+const productsStructuredData = [
+  buildOrganizationSchema(),
+  buildWebPageSchema({
+    name: productsTitle,
+    description: productsDescription,
+    path: "/productos/",
+    image: "/images/products-hero-warehouse-overhead.webp",
+    pageType: "CollectionPage",
+  }),
+  buildBreadcrumbSchema([
+    { name: "Inicio", path: "/" },
+    { name: "Productos", path: "/productos/" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Catálogo de uniformes Birmania Inc",
+    itemListElement: categories.map((category, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: category.label,
+      url: "https://birmaniainc.com.ar/productos/",
+    })),
+  },
+];
+
+const getProductFilterLabel = (productName: string) => {
+  if (productName === "Buzo Cuello Redondo") return "Buzo";
+  if (productName === "Delantal Tipo Pollera") return "Delantal Pollera";
+  return productName;
+};
+
+const productOptions = Array.from(
+  new Set(categories.flatMap((category) => category.products.map((product) => getProductFilterLabel(product.name))))
+);
 ---
 
-<Layout title="Birmania Inc — Productos">
-  <Header />
+<Layout
+  title={productsTitle}
+  description={productsDescription}
+  path="/productos/"
+  image="/images/products-hero-warehouse-overhead.webp"
+  structuredData={productsStructuredData}
+>
+  <Header intro />
   <main>
     <!-- Hero -->
     <section class="phero">
@@ -36,6 +83,7 @@ import { categories, prendaTypes } from "../data/products";
             {categories.map((cat) => (
               <button class="dropdown__option" data-sector={cat.id}>{cat.label}</button>
             ))}
+            <button class="dropdown__option dropdown__option--assist" data-sector="otros">Otros</button>
           </div>
         </div>
 
@@ -45,10 +93,12 @@ import { categories, prendaTypes } from "../data/products";
             <span class="dropdown__value" id="prenda-value">Todos</span>
             <svg class="dropdown__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
-          <div class="dropdown__menu" id="prenda-menu">
-            {prendaTypes.map((p) => (
-              <button class="dropdown__option" data-prenda={p.id} style={p.id === "todos" ? "" : "display:none"}>{p.label}</button>
+          <div class="dropdown__menu dropdown__menu--scroll" id="prenda-menu">
+            <button class="dropdown__option is-active" data-prenda="todos">Todos</button>
+            {productOptions.map((productName) => (
+              <button class="dropdown__option" data-prenda={productName}>{productName}</button>
             ))}
+            <button class="dropdown__option dropdown__option--assist" data-prenda="otros">Otros</button>
           </div>
         </div>
       </div>
@@ -69,7 +119,13 @@ import { categories, prendaTypes } from "../data/products";
               </button>
               <div class="carousel-track">
                 {cat.products.map((product) => (
-                  <div class="pcard" data-product-id={product.id} data-type={product.type}>
+                  <div
+                    class="pcard"
+                    data-product-id={product.id}
+                    data-type={product.type}
+                    data-product-name={product.name}
+                    data-product-filter={getProductFilterLabel(product.name)}
+                  >
                     <div class="pcard__img-wrap">
                       <img
                         src={product.variants[0].image}
@@ -122,7 +178,14 @@ import { categories, prendaTypes } from "../data/products";
       <div class="grid-view__inner">
         {categories.map((cat) =>
           cat.products.map((product) => (
-            <div class="pcard" data-product-id={product.id} data-cat={cat.id} data-type={product.type}>
+            <div
+              class="pcard"
+              data-product-id={product.id}
+              data-cat={cat.id}
+              data-type={product.type}
+              data-product-name={product.name}
+              data-product-filter={getProductFilterLabel(product.name)}
+            >
               <div class="pcard__img-wrap">
                 <img
                   src={product.variants[0].image}
@@ -163,14 +226,14 @@ import { categories, prendaTypes } from "../data/products";
     </div>
 
     <!-- Products CTA -->
-    <section class="pcta">
+    <section class="pcta" id="productos-cta">
       <div class="pcta__inner">
         <h2 class="pcta__title">¿No encontrás lo que<br class="desktop-br" /> buscás?</h2>
         <p class="pcta__sub">
-          Fabricamos uniformes a medida para cualquier rubro.<br />
+          Fabricamos uniformes a medida <span class="pcta__sub-break">para cualquier rubro.</span><br />
           Contactanos y te armamos una propuesta personalizada.
         </p>
-        <a href="#contacto" class="pcta__btn">Solicitar Cotización</a>
+        <a href="/#contacto" class="pcta__btn">Solicitar Cotización</a>
       </div>
     </section>
   </main>
@@ -189,7 +252,7 @@ import { categories, prendaTypes } from "../data/products";
   .phero__overlay {
     position: absolute;
     inset: 0;
-    background: url("/images/products-hero-warehouse-overhead.png") center / cover no-repeat;
+    background: url("/images/products-hero-warehouse-overhead.webp") center / cover no-repeat;
     opacity: 0.28;
   }
 
@@ -314,10 +377,36 @@ import { categories, prendaTypes } from "../data/products";
     z-index: 200;
     max-height: 260px;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #111 #f3f3f3;
+  }
+
+  .dropdown__menu::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .dropdown__menu::-webkit-scrollbar-track {
+    background: #f3f3f3;
+  }
+
+  .dropdown__menu::-webkit-scrollbar-thumb {
+    background: #111;
+    border-radius: 999px;
+    border: 2px solid #f3f3f3;
+  }
+
+  .dropdown__menu::-webkit-scrollbar-thumb:hover {
+    background: #333;
   }
 
   .dropdown.is-open .dropdown__menu {
     display: flex;
+  }
+
+  .dropdown__menu--scroll {
+    max-height: 220px;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
   }
 
   .dropdown__option {
@@ -343,6 +432,10 @@ import { categories, prendaTypes } from "../data/products";
     font-weight: 600;
     color: #000;
     background: #f0f0f0;
+  }
+
+  .dropdown__option--assist {
+    border-top: 1px solid #eee;
   }
 
   /* ===== CATEGORY SECTIONS ===== */
@@ -608,6 +701,10 @@ import { categories, prendaTypes } from "../data/products";
     max-width: 500px;
   }
 
+  .pcta__sub-break {
+    display: inline;
+  }
+
   .pcta__btn {
     display: inline-flex;
     align-items: center;
@@ -619,11 +716,19 @@ import { categories, prendaTypes } from "../data/products";
     font-weight: 500;
     letter-spacing: 1px;
     padding: 16px 36px;
-    transition: opacity 0.2s;
+    transition:
+      background-color 0.22s ease,
+      color 0.22s ease,
+      border-color 0.22s ease;
+    border: 1.5px solid #000;
   }
 
-  .pcta__btn:hover {
-    opacity: 0.85;
+  @media (hover: hover) {
+    .pcta__btn:hover {
+      background: #fff;
+      color: #000;
+      border-color: #000;
+    }
   }
 
   /* ===== RESPONSIVE ===== */
@@ -785,6 +890,10 @@ import { categories, prendaTypes } from "../data/products";
       display: none;
     }
 
+    .pcta__sub-break {
+      display: block;
+    }
+
     .pcta__btn {
       width: 100%;
     }
@@ -832,9 +941,157 @@ import { categories, prendaTypes } from "../data/products";
 </style>
 
 <script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
   import { initWhatsAppFloatTheme } from "../scripts/whatsappFloatTheme";
 
+  gsap.registerPlugin(ScrollTrigger);
   initWhatsAppFloatTheme();
+  const mobileProductsQuery = window.matchMedia("(max-width: 768px)");
+
+  const scrollDefaults = {
+    start: "top 85%",
+    once: true,
+  };
+
+  const heroTimeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+  const firstCategorySection = document.querySelector<HTMLElement>(".cat-section");
+
+  const shouldAnimateFirstCategoryOnLoad = () => {
+    if (!firstCategorySection) return false;
+
+    const rect = firstCategorySection.getBoundingClientRect();
+    return rect.top < window.innerHeight - 120;
+  };
+
+  const animateFirstCategoryOnLoad = shouldAnimateFirstCategoryOnLoad();
+
+  heroTimeline.to("#header", {
+    y: 0,
+    opacity: 1,
+    duration: 0.6,
+    onComplete: () => {
+      document.getElementById("header")?.classList.remove("header--intro");
+    },
+  });
+
+  heroTimeline.fromTo(
+    ".phero__overlay",
+    { yPercent: 10, opacity: 0 },
+    { yPercent: 0, opacity: 0.28, duration: 0.55, ease: "power2.out" },
+    "-=0.48"
+  );
+  heroTimeline.from(".phero__tag", { x: -20, opacity: 0, duration: 0.3 }, "-=0.38");
+  heroTimeline.from(".phero__title", { y: 28, opacity: 0, duration: 0.44 }, "-=0.16");
+  heroTimeline.from(".phero__sub", { y: 14, opacity: 0, duration: 0.3 }, "-=0.24");
+  heroTimeline.add("catalogReveal", "-=0.06");
+  heroTimeline.fromTo(
+    ".filters .dropdown",
+    { y: 20, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.4, stagger: 0.15 },
+    "catalogReveal"
+  );
+  heroTimeline.fromTo(
+    ".whatsapp-float",
+    { scale: 0, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" },
+    "-=0.3"
+  );
+
+  if (animateFirstCategoryOnLoad && firstCategorySection) {
+    const firstHeader = firstCategorySection.querySelector(".cat-section__header");
+    const firstCards = Array.from(
+      firstCategorySection.querySelectorAll<HTMLElement>(".carousel-track .pcard")
+    ).filter((_, index) => !mobileProductsQuery.matches || index < 3);
+
+    if (firstHeader) {
+      heroTimeline.from(
+        firstHeader,
+        {
+          y: 40,
+          opacity: 0,
+          duration: 0.7,
+        },
+        "catalogReveal"
+      );
+    }
+
+    if (firstCards.length) {
+      heroTimeline.from(
+        firstCards,
+        {
+          y: 40,
+          opacity: 0,
+          duration: 0.5,
+          stagger: 0.1,
+        },
+        "catalogReveal+=0.08"
+      );
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>(".cat-section").forEach((section) => {
+    const header = section.querySelector(".cat-section__header");
+    const cards = Array.from(section.querySelectorAll<HTMLElement>(".carousel-track .pcard")).filter(
+      (_, index) => !mobileProductsQuery.matches || index < 3
+    );
+
+    if (header && !(animateFirstCategoryOnLoad && section === firstCategorySection)) {
+      gsap.from(header, {
+        scrollTrigger: { trigger: header, ...scrollDefaults },
+        y: 40,
+        opacity: 0,
+        duration: 0.7,
+      });
+    }
+
+    if (cards.length && !(animateFirstCategoryOnLoad && section === firstCategorySection)) {
+      gsap.from(cards, {
+        scrollTrigger: { trigger: section, ...scrollDefaults },
+        y: 40,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.1,
+      });
+    }
+  });
+
+  gsap.from([".pcta__title", ".pcta__sub"], {
+    scrollTrigger: { trigger: ".pcta__inner", ...scrollDefaults },
+    y: 30,
+    opacity: 0,
+    duration: 0.5,
+    stagger: 0.12,
+  });
+
+  gsap.from(".footer__top", {
+    scrollTrigger: { trigger: ".footer__inner", ...scrollDefaults },
+    y: 20,
+    opacity: 0,
+    duration: 0.6,
+  });
+
+  function animateVisibleGridCards() {
+    const visibleCards = Array.from(
+      gridView.querySelectorAll<HTMLElement>(".pcard")
+    ).filter((card) => card.dataset.hidden !== "true");
+
+    if (!visibleCards.length) return;
+
+    gsap.killTweensOf(visibleCards);
+    gsap.fromTo(
+      visibleCards,
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "power3.out",
+        clearProps: "transform,opacity",
+      }
+    );
+  }
 
   // --- Color navigation helper ---
   function updateCardArrows(card: Element) {
@@ -940,7 +1197,6 @@ import { categories, prendaTypes } from "../data/products";
   const prendaValue = document.getElementById("prenda-value")!;
   const browseView = document.getElementById("browse-view")!;
   const gridView = document.getElementById("grid-view")!;
-  const mobileProductsQuery = window.matchMedia("(max-width: 768px)");
 
   let activeSector = "todos";
   let activePrenda = "todos";
@@ -969,6 +1225,24 @@ import { categories, prendaTypes } from "../data/products";
       if (!section) return;
       section.dataset.mobileExpanded = "true";
       syncMobileProductLists();
+      const revealedCards = Array.from(
+        section.querySelectorAll<HTMLElement>('.carousel-track .pcard[data-mobile-hidden="false"]')
+      ).slice(3);
+      if (revealedCards.length) {
+        gsap.fromTo(
+          revealedCards,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: "power3.out",
+            clearProps: "transform,opacity",
+          }
+        );
+      }
+      ScrollTrigger.refresh();
     });
   });
 
@@ -1003,40 +1277,47 @@ import { categories, prendaTypes } from "../data/products";
     gridView.style.display = mode === "grid" ? "" : "none";
   }
 
+  function scrollToProductsCta() {
+    document.getElementById("productos-cta")?.scrollIntoView({ behavior: "smooth" });
+  }
+
   function updatePrendaOptions() {
     const options = prendaMenu.querySelectorAll<HTMLButtonElement>(".dropdown__option");
-    if (activeSector === "todos") {
-      options.forEach((o) => {
-        o.style.display = o.dataset.prenda === "todos" ? "" : "none";
-      });
-      return;
-    }
+    const availableProducts = new Set<string>(["todos", "otros"]);
+    const gridCards =
+      activeSector === "todos"
+        ? gridView.querySelectorAll<HTMLElement>(".pcard")
+        : gridView.querySelectorAll<HTMLElement>(`.pcard[data-cat="${activeSector}"]`);
 
-    const gridCards = gridView.querySelectorAll<HTMLElement>(`.pcard[data-cat="${activeSector}"]`);
-    const availableTypes = new Set<string>(["todos"]);
-    gridCards.forEach((c) => {
-      if (c.dataset.type) availableTypes.add(c.dataset.type);
+    gridCards.forEach((card) => {
+      if (card.dataset.productFilter) availableProducts.add(card.dataset.productFilter);
     });
 
     options.forEach((o) => {
-      o.style.display = availableTypes.has(o.dataset.prenda!) ? "" : "none";
+      o.style.display = availableProducts.has(o.dataset.prenda!) ? "" : "none";
     });
   }
 
   function applyFilters() {
-    if (activeSector === "todos") {
+    if (activeSector === "todos" && activePrenda === "todos") {
       setView("browse");
       document.querySelectorAll<HTMLElement>(".cat-section").forEach((s) => {
         s.style.display = "";
       });
+      ScrollTrigger.refresh();
       return;
     }
 
     setView("grid");
     gridView.querySelectorAll<HTMLElement>(".pcard").forEach((card) => {
-      const matchSector = card.dataset.cat === activeSector;
-      const matchPrenda = activePrenda === "todos" || card.dataset.type === activePrenda;
+      const matchSector = activeSector === "todos" || card.dataset.cat === activeSector;
+      const matchPrenda = activePrenda === "todos" || card.dataset.productFilter === activePrenda;
       card.dataset.hidden = String(!(matchSector && matchPrenda));
+    });
+
+    requestAnimationFrame(() => {
+      animateVisibleGridCards();
+      ScrollTrigger.refresh();
     });
   }
 
@@ -1062,6 +1343,11 @@ import { categories, prendaTypes } from "../data/products";
   sectorMenu.addEventListener("click", (e) => {
     const option = (e.target as HTMLElement).closest<HTMLButtonElement>(".dropdown__option");
     if (!option) return;
+    if (option.dataset.sector === "otros") {
+      sectorDropdown.classList.remove("is-open");
+      scrollToProductsCta();
+      return;
+    }
     selectSector(option.dataset.sector!, option.textContent!.trim());
   });
 
@@ -1069,6 +1355,11 @@ import { categories, prendaTypes } from "../data/products";
   prendaMenu.addEventListener("click", (e) => {
     const option = (e.target as HTMLElement).closest<HTMLButtonElement>(".dropdown__option");
     if (!option) return;
+    if (option.dataset.prenda === "otros") {
+      prendaDropdown.classList.remove("is-open");
+      scrollToProductsCta();
+      return;
+    }
 
     activePrenda = option.dataset.prenda!;
     prendaValue.textContent = option.textContent!.trim();

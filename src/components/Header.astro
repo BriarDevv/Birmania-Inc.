@@ -469,6 +469,7 @@ const whatsappNumber = "5491100000000";
   const hamburger = document.getElementById("hamburger");
   const mobileNav = document.getElementById("mobile-nav");
   const mobileOverlay = document.getElementById("mobile-overlay");
+  const mobileLogo = document.querySelector<HTMLAnchorElement>(".mobile-nav__logo");
   let isOpen = false;
 
   function toggleMenu() {
@@ -499,5 +500,14 @@ const whatsappNumber = "5491100000000";
 
   document.querySelectorAll(".mobile-nav__link").forEach((link) => {
     link.addEventListener("click", closeMenu);
+  });
+
+  mobileLogo?.addEventListener("click", (event) => {
+    closeMenu();
+
+    if (window.location.pathname === "/") {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   });
 </script>

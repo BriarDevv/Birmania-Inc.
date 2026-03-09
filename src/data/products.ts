@@ -21,7 +21,7 @@ export interface Category {
 const v = (color: string, hex: string, file: string, folder: string): ProductVariant => ({
   color,
   hex,
-  image: `/images/products/${folder}/${file}`,
+  image: `/images/products/${folder}/${file.replace(/\.(png|jpe?g)$/i, ".webp")}`,
 });
 
 const preferredProductColors: Record<string, string> = {
@@ -102,8 +102,8 @@ const rawCategories: Category[] = [
         description: "Conjunto formal para ambientes ejecutivos",
         type: "ambo",
         variants: [
-          v("Azul", "#2563eb", "Ambo-Azul-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "Ambo-Negro-Corporativo.png", "corporativo"),
+          v("Azul", "#2563eb", "Ambo-Azul-Corporativo\.webp", "corporativo"),
+          v("Negro", "#111", "Ambo-Negro-Corporativo\.webp", "corporativo"),
         ],
       },
       {
@@ -112,12 +112,12 @@ const rawCategories: Category[] = [
         description: "Conjunto camisa y pantalón chino",
         type: "camisa",
         variants: [
-          v("Blanco y Beige", "#f5f0e8", "CamisaYchino-BlancoYbeige-Corporativo.png", "corporativo"),
-          v("Celeste y Beige", "#b5d8e8", "CamisaYchino-celesteYbeige-Corporativo.png", "corporativo"),
-          v("Celeste y Gris", "#a8c8d8", "CamisaYchino-celesteYgris-Corporativo.png", "corporativo"),
-          v("Gris y Azul", "#8898a8", "CamisaYchino-grisYazul-Corporativo.png", "corporativo"),
-          v("Negro y Beige", "#3a3530", "CamisaYchino-negroYbeigeClaro-Corporativo.png", "corporativo"),
-          v("Negro y Gris", "#2a2a2a", "CamisaYchino-negroYgris-Corporativo.png", "corporativo"),
+          v("Blanco y Beige", "#f5f0e8", "CamisaYchino-BlancoYbeige-Corporativo\.webp", "corporativo"),
+          v("Celeste y Beige", "#b5d8e8", "CamisaYchino-celesteYbeige-Corporativo\.webp", "corporativo"),
+          v("Celeste y Gris", "#a8c8d8", "CamisaYchino-celesteYgris-Corporativo\.webp", "corporativo"),
+          v("Gris y Azul", "#8898a8", "CamisaYchino-grisYazul-Corporativo\.webp", "corporativo"),
+          v("Negro y Beige", "#3a3530", "CamisaYchino-negroYbeigeClaro-Corporativo\.webp", "corporativo"),
+          v("Negro y Gris", "#2a2a2a", "CamisaYchino-negroYgris-Corporativo\.webp", "corporativo"),
         ],
       },
       {
@@ -126,11 +126,11 @@ const rawCategories: Category[] = [
         description: "Sweater tejido para look profesional",
         type: "sweater",
         variants: [
-          v("Azul", "#2563eb", "Sweater-Azul-Corporativo.png", "corporativo"),
-          v("Beige", "#d4a574", "Sweater-beige-Corporativo.png", "corporativo"),
-          v("Blanco", "#e8e8e8", "Sweater-Blanco-Corporativo.png", "corporativo"),
-          v("Gris", "#9ca3af", "Sweater-Gris-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "Sweater-Negro-Corporativo.png", "corporativo"),
+          v("Azul", "#2563eb", "Sweater-Azul-Corporativo\.webp", "corporativo"),
+          v("Beige", "#d4a574", "Sweater-beige-Corporativo\.webp", "corporativo"),
+          v("Blanco", "#e8e8e8", "Sweater-Blanco-Corporativo\.webp", "corporativo"),
+          v("Gris", "#9ca3af", "Sweater-Gris-Corporativo\.webp", "corporativo"),
+          v("Negro", "#111", "Sweater-Negro-Corporativo\.webp", "corporativo"),
         ],
       },
       {
@@ -139,10 +139,10 @@ const rawCategories: Category[] = [
         description: "Chaleco versátil para uniformar equipos",
         type: "chaleco",
         variants: [
-          v("Azul", "#2563eb", "Chaleco-Azul-Corporativo.png", "corporativo"),
-          v("Blanco", "#e8e8e8", "Chaleco-Blanco-Corporativo.png", "corporativo"),
-          v("Gris", "#9ca3af", "Chaleco-Gris-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "Chaleco-Negro-Corporativo.png", "corporativo"),
+          v("Azul", "#2563eb", "Chaleco-Azul-Corporativo\.webp", "corporativo"),
+          v("Blanco", "#e8e8e8", "Chaleco-Blanco-Corporativo\.webp", "corporativo"),
+          v("Gris", "#9ca3af", "Chaleco-Gris-Corporativo\.webp", "corporativo"),
+          v("Negro", "#111", "Chaleco-Negro-Corporativo\.webp", "corporativo"),
         ],
       },
       {
@@ -151,11 +151,11 @@ const rawCategories: Category[] = [
         description: "Chomba clásica con cuello",
         type: "chomba",
         variants: [
-          v("Azul", "#2563eb", "Chomba-azul-Corporativo.png", "corporativo"),
-          v("Blanco", "#e8e8e8", "Chomba-blanco-Corporativo.png", "corporativo"),
-          v("Gris", "#9ca3af", "Chomba-gris-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "Chomba-negra-Corporativo.png", "corporativo"),
-          v("Verde", "#22c55e", "Chomba-verde-Corporativo.png", "corporativo"),
+          v("Azul", "#2563eb", "Chomba-azul-Corporativo\.webp", "corporativo"),
+          v("Blanco", "#e8e8e8", "Chomba-blanco-Corporativo\.webp", "corporativo"),
+          v("Gris", "#9ca3af", "Chomba-gris-Corporativo\.webp", "corporativo"),
+          v("Negro", "#111", "Chomba-negra-Corporativo\.webp", "corporativo"),
+          v("Verde", "#22c55e", "Chomba-verde-Corporativo\.webp", "corporativo"),
         ],
       },
       {
@@ -164,10 +164,10 @@ const rawCategories: Category[] = [
         description: "Buzo con cierre ideal para uso diario",
         type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "Buzo-Azul-Corporativo.png", "corporativo"),
-          v("Blanco", "#e8e8e8", "Buzo-Blanco-Corporativo.png", "corporativo"),
-          v("Gris", "#9ca3af", "Buzo-Gris-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "Buzo-Negro-Corporativo.png", "corporativo"),
+          v("Azul", "#2563eb", "Buzo-Azul-Corporativo\.webp", "corporativo"),
+          v("Blanco", "#e8e8e8", "Buzo-Blanco-Corporativo\.webp", "corporativo"),
+          v("Gris", "#9ca3af", "Buzo-Gris-Corporativo\.webp", "corporativo"),
+          v("Negro", "#111", "Buzo-Negro-Corporativo\.webp", "corporativo"),
         ],
       },
       {
@@ -176,9 +176,9 @@ const rawCategories: Category[] = [
         description: "Abrigo polar para días fríos",
         type: "buzo",
         variants: [
-          v("Gris", "#9ca3af", "BuzoPolar-Gris-Corporativo.png", "corporativo"),
-          v("Azul", "#2563eb", "BuzoPolar-Azul-Corporativo.png", "corporativo"),
-          v("Negro", "#111", "BuzoPolar-Negro-Corporativo.png", "corporativo"),
+          v("Gris", "#9ca3af", "BuzoPolar-Gris-Corporativo\.webp", "corporativo"),
+          v("Azul", "#2563eb", "BuzoPolar-Azul-Corporativo\.webp", "corporativo"),
+          v("Negro", "#111", "BuzoPolar-Negro-Corporativo\.webp", "corporativo"),
         ],
       },
     ],
@@ -193,10 +193,10 @@ const rawCategories: Category[] = [
         description: "Buzo resistente para trabajo pesado",
         type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "Buzo-Azul-Industria.png", "industria"),
-          v("Blanco", "#e8e8e8", "Buzo-Blanco-Industria.png", "industria"),
-          v("Gris", "#9ca3af", "Buzo-Gris-Industria.png", "industria"),
-          v("Negro", "#111", "Buzo-Negro-Industria.png", "industria"),
+          v("Azul", "#2563eb", "Buzo-Azul-Industria\.webp", "industria"),
+          v("Blanco", "#e8e8e8", "Buzo-Blanco-Industria\.webp", "industria"),
+          v("Gris", "#9ca3af", "Buzo-Gris-Industria\.webp", "industria"),
+          v("Negro", "#111", "Buzo-Negro-Industria\.webp", "industria"),
         ],
       },
       {
@@ -205,10 +205,10 @@ const rawCategories: Category[] = [
         description: "Buzo cómodo de cuello redondo",
         type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "BuzoCuelloRedondo-Azul-Industria.png", "industria"),
-          v("Blanco", "#e8e8e8", "BuzoCuelloRedondo-Blanco-Industria.png", "industria"),
-          v("Gris", "#9ca3af", "BuzoCuelloRedondo-Gris-Industria.png", "industria"),
-          v("Negro", "#111", "BuzoCuelloRedondo-Negro-Industria.png", "industria"),
+          v("Azul", "#2563eb", "BuzoCuelloRedondo-Azul-Industria\.webp", "industria"),
+          v("Blanco", "#e8e8e8", "BuzoCuelloRedondo-Blanco-Industria\.webp", "industria"),
+          v("Gris", "#9ca3af", "BuzoCuelloRedondo-Gris-Industria\.webp", "industria"),
+          v("Negro", "#111", "BuzoCuelloRedondo-Negro-Industria\.webp", "industria"),
         ],
       },
       {
@@ -217,9 +217,9 @@ const rawCategories: Category[] = [
         description: "Abrigo polar para entornos fríos",
         type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "BuzoPolar-Azul-Industria.png", "industria"),
-          v("Gris", "#9ca3af", "BuzoPolar-gris-Industria.png", "industria"),
-          v("Negro", "#111", "BuzoPolar-negro-Industria.png", "industria"),
+          v("Azul", "#2563eb", "BuzoPolar-Azul-Industria\.webp", "industria"),
+          v("Gris", "#9ca3af", "BuzoPolar-gris-Industria\.webp", "industria"),
+          v("Negro", "#111", "BuzoPolar-negro-Industria\.webp", "industria"),
         ],
       },
       {
@@ -228,10 +228,10 @@ const rawCategories: Category[] = [
         description: "Chaleco de alta visibilidad",
         type: "chaleco",
         variants: [
-          v("Azul", "#2563eb", "Chaleco-Azul-Seguridad.png", "industria"),
-          v("Blanco", "#e8e8e8", "Chaleco-Blanco-Seguridad.png", "industria"),
-          v("Gris", "#9ca3af", "Chaleco-Gris-Seguridad.png", "industria"),
-          v("Negro", "#111", "Chaleco-Negro-Seguridad.png", "industria"),
+          v("Azul", "#2563eb", "Chaleco-Azul-Seguridad\.webp", "industria"),
+          v("Blanco", "#e8e8e8", "Chaleco-Blanco-Seguridad\.webp", "industria"),
+          v("Gris", "#9ca3af", "Chaleco-Gris-Seguridad\.webp", "industria"),
+          v("Negro", "#111", "Chaleco-Negro-Seguridad\.webp", "industria"),
         ],
       },
       {
@@ -240,10 +240,10 @@ const rawCategories: Category[] = [
         description: "Gorra de protección y confort",
         type: "gorra",
         variants: [
-          v("Azul", "#2563eb", "Gorra-Azul-Industria.png", "industria"),
-          v("Blanco", "#e8e8e8", "Gorra-Blanca-Industria.png", "industria"),
-          v("Gris", "#9ca3af", "Gorra-Gris-Industria.png", "industria"),
-          v("Negro", "#111", "Gorra-Negra-Industria.png", "industria"),
+          v("Azul", "#2563eb", "Gorra-Azul-Industria\.webp", "industria"),
+          v("Blanco", "#e8e8e8", "Gorra-Blanca-Industria\.webp", "industria"),
+          v("Gris", "#9ca3af", "Gorra-Gris-Industria\.webp", "industria"),
+          v("Negro", "#111", "Gorra-Negra-Industria\.webp", "industria"),
         ],
       },
       {
@@ -252,9 +252,9 @@ const rawCategories: Category[] = [
         description: "Pantalón resistente con bolsillos cargo",
         type: "pantalon",
         variants: [
-          v("Azul", "#2563eb", "PantalonCargo-Azul-Industria.png", "industria"),
-          v("Gris", "#9ca3af", "PantalonCargo-Gris-Industria.png", "industria"),
-          v("Negro", "#111", "PantalonCargo-Negro-Industria.png", "industria"),
+          v("Azul", "#2563eb", "PantalonCargo-Azul-Industria\.webp", "industria"),
+          v("Gris", "#9ca3af", "PantalonCargo-Gris-Industria\.webp", "industria"),
+          v("Negro", "#111", "PantalonCargo-Negro-Industria\.webp", "industria"),
         ],
       },
       {
@@ -263,8 +263,8 @@ const rawCategories: Category[] = [
         description: "Conjunto integral de trabajo",
         type: "conjunto",
         variants: [
-          v("Azul", "#2563eb", "Ropa de trabajo-Azul-Industria.png", "industria"),
-          v("Gris", "#6b7280", "Ropa de trabajo-default-Industria.png", "industria"),
+          v("Azul", "#2563eb", "Ropa de trabajo-Azul-Industria\.webp", "industria"),
+          v("Gris", "#6b7280", "Ropa de trabajo-default-Industria\.webp", "industria"),
         ],
       },
     ],
@@ -279,8 +279,8 @@ const rawCategories: Category[] = [
         description: "Uniforme completo para personal de seguridad",
         type: "ambo",
         variants: [
-          v("Azul", "#2563eb", "Ambo-Azul-seguridad.png", "seguridad"),
-          v("Negro", "#111", "Ambo-negro-seguridad.png", "seguridad"),
+          v("Azul", "#2563eb", "Ambo-Azul-seguridad\.webp", "seguridad"),
+          v("Negro", "#111", "Ambo-negro-seguridad\.webp", "seguridad"),
         ],
       },
       {
@@ -289,9 +289,9 @@ const rawCategories: Category[] = [
         description: "Abrigo polar para guardias y vigilancia",
         type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "BuzoPolar-Azul-seguridad.png", "seguridad"),
-          v("Gris", "#9ca3af", "BuzoPolar-Gris-Seguridad.png", "seguridad"),
-          v("Negro", "#111", "BuzoPolar-Negro-Seguridad.png", "seguridad"),
+          v("Azul", "#2563eb", "BuzoPolar-Azul-seguridad\.webp", "seguridad"),
+          v("Gris", "#9ca3af", "BuzoPolar-Gris-Seguridad\.webp", "seguridad"),
+          v("Negro", "#111", "BuzoPolar-Negro-Seguridad\.webp", "seguridad"),
         ],
       },
       {
@@ -300,10 +300,10 @@ const rawCategories: Category[] = [
         description: "Chaleco identificatorio de seguridad",
         type: "chaleco",
         variants: [
-          v("Azul", "#2563eb", "Chaleco-Azul-Seguridad.png", "seguridad"),
-          v("Blanco", "#e8e8e8", "Chaleco-Blanco-Seguridad.png", "seguridad"),
-          v("Gris", "#9ca3af", "Chaleco-Gris-Seguridad.png", "seguridad"),
-          v("Negro", "#111", "Chaleco-Negro-Seguridad.png", "seguridad"),
+          v("Azul", "#2563eb", "Chaleco-Azul-Seguridad\.webp", "seguridad"),
+          v("Blanco", "#e8e8e8", "Chaleco-Blanco-Seguridad\.webp", "seguridad"),
+          v("Gris", "#9ca3af", "Chaleco-Gris-Seguridad\.webp", "seguridad"),
+          v("Negro", "#111", "Chaleco-Negro-Seguridad\.webp", "seguridad"),
         ],
       },
       {
@@ -312,10 +312,10 @@ const rawCategories: Category[] = [
         description: "Gorra para personal de vigilancia",
         type: "gorra",
         variants: [
-          v("Azul", "#2563eb", "Gorra-Azul-Seguridad.png", "seguridad"),
-          v("Blanco", "#e8e8e8", "Gorra-Blanca-Seguridad.png", "seguridad"),
-          v("Gris", "#9ca3af", "Gorra-Gris-Seguridad.png", "seguridad"),
-          v("Negro", "#111", "Gorra-Negra-Seguridad.png", "seguridad"),
+          v("Azul", "#2563eb", "Gorra-Azul-Seguridad\.webp", "seguridad"),
+          v("Blanco", "#e8e8e8", "Gorra-Blanca-Seguridad\.webp", "seguridad"),
+          v("Gris", "#9ca3af", "Gorra-Gris-Seguridad\.webp", "seguridad"),
+          v("Negro", "#111", "Gorra-Negra-Seguridad\.webp", "seguridad"),
         ],
       },
       {
@@ -324,11 +324,11 @@ const rawCategories: Category[] = [
         description: "Campera liviana e impermeable",
         type: "campera",
         variants: [
-          v("Amarillo", "#eab308", "RompeVientos-Amarillo-seguridad.png", "seguridad"),
-          v("Azul", "#2563eb", "RompeVientos-Azul-seguridad.png", "seguridad"),
-          v("Blanco", "#e8e8e8", "RompeVientos-Blanco-seguridad.png", "seguridad"),
-          v("Gris", "#9ca3af", "RompeVientos-Gris-seguridad.png", "seguridad"),
-          v("Negro", "#111", "RompeVientos-Negro-seguridad.png", "seguridad"),
+          v("Amarillo", "#eab308", "RompeVientos-Amarillo-seguridad\.webp", "seguridad"),
+          v("Azul", "#2563eb", "RompeVientos-Azul-seguridad\.webp", "seguridad"),
+          v("Blanco", "#e8e8e8", "RompeVientos-Blanco-seguridad\.webp", "seguridad"),
+          v("Gris", "#9ca3af", "RompeVientos-Gris-seguridad\.webp", "seguridad"),
+          v("Negro", "#111", "RompeVientos-Negro-seguridad\.webp", "seguridad"),
         ],
       },
     ],
@@ -343,10 +343,10 @@ const rawCategories: Category[] = [
         description: "Buzo con cierre para instituciones educativas",
         type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "Buzo-Azul-Educacion.png", "educacion"),
-          v("Blanco", "#e8e8e8", "Buzo-Blanco-Educacion.png", "educacion"),
-          v("Gris", "#9ca3af", "Buzo-Gris-Educacion.png", "educacion"),
-          v("Negro", "#111", "Buzo-Negro-Educacion.png", "educacion"),
+          v("Azul", "#2563eb", "Buzo-Azul-Educacion\.webp", "educacion"),
+          v("Blanco", "#e8e8e8", "Buzo-Blanco-Educacion\.webp", "educacion"),
+          v("Gris", "#9ca3af", "Buzo-Gris-Educacion\.webp", "educacion"),
+          v("Negro", "#111", "Buzo-Negro-Educacion\.webp", "educacion"),
         ],
       },
       {
@@ -355,10 +355,10 @@ const rawCategories: Category[] = [
         description: "Buzo escolar de cuello redondo",
         type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "BuzoCuelloRedondo-Azul-Educacion.png", "educacion"),
-          v("Blanco", "#e8e8e8", "BuzoCuelloRedondo-Blanco-Educacion.png", "educacion"),
-          v("Gris", "#9ca3af", "BuzoCuelloRedondo-Gris-Educacion.png", "educacion"),
-          v("Negro", "#111", "BuzoCuelloRedondo-Negro-Educacion.png", "educacion"),
+          v("Azul", "#2563eb", "BuzoCuelloRedondo-Azul-Educacion\.webp", "educacion"),
+          v("Blanco", "#e8e8e8", "BuzoCuelloRedondo-Blanco-Educacion\.webp", "educacion"),
+          v("Gris", "#9ca3af", "BuzoCuelloRedondo-Gris-Educacion\.webp", "educacion"),
+          v("Negro", "#111", "BuzoCuelloRedondo-Negro-Educacion\.webp", "educacion"),
         ],
       },
       {
@@ -367,10 +367,10 @@ const rawCategories: Category[] = [
         description: "Campera liviana para el colegio",
         type: "campera",
         variants: [
-          v("Azul", "#2563eb", "Camperita-Azul-Educacion.png", "educacion"),
-          v("Blanco", "#e8e8e8", "Camperita-Blanca-Educacion.png", "educacion"),
-          v("Gris", "#9ca3af", "Camperita-Gris-Educacion.png", "educacion"),
-          v("Negro", "#111", "Camperita-Negra-Educacion.png", "educacion"),
+          v("Azul", "#2563eb", "Camperita-Azul-Educacion\.webp", "educacion"),
+          v("Blanco", "#e8e8e8", "Camperita-Blanca-Educacion\.webp", "educacion"),
+          v("Gris", "#9ca3af", "Camperita-Gris-Educacion\.webp", "educacion"),
+          v("Negro", "#111", "Camperita-Negra-Educacion\.webp", "educacion"),
         ],
       },
       {
@@ -379,10 +379,10 @@ const rawCategories: Category[] = [
         description: "Remera para uniforme escolar",
         type: "remera",
         variants: [
-          v("Azul", "#2563eb", "Remera-Azul-Educacion.png", "educacion"),
-          v("Blanco", "#e8e8e8", "Remera-Blanca-Educacion.png", "educacion"),
-          v("Gris", "#9ca3af", "Remera-Gris-Educacion.png", "educacion"),
-          v("Negro", "#111", "Remera-Negra-Educacion.png", "educacion"),
+          v("Azul", "#2563eb", "Remera-Azul-Educacion\.webp", "educacion"),
+          v("Blanco", "#e8e8e8", "Remera-Blanca-Educacion\.webp", "educacion"),
+          v("Gris", "#9ca3af", "Remera-Gris-Educacion\.webp", "educacion"),
+          v("Negro", "#111", "Remera-Negra-Educacion\.webp", "educacion"),
         ],
       },
       {
@@ -391,10 +391,10 @@ const rawCategories: Category[] = [
         description: "Campera impermeable escolar",
         type: "campera",
         variants: [
-          v("Azul", "#2563eb", "RompeVientos-Azul-Educacion.png", "educacion"),
-          v("Blanco", "#e8e8e8", "RompeVientos-Blanco-Educacion.png", "educacion"),
-          v("Gris", "#9ca3af", "RompeVientos-Gris-Educacion.png", "educacion"),
-          v("Negro", "#111", "RompeVientos-Negro-Educacion.png", "educacion"),
+          v("Azul", "#2563eb", "RompeVientos-Azul-Educacion\.webp", "educacion"),
+          v("Blanco", "#e8e8e8", "RompeVientos-Blanco-Educacion\.webp", "educacion"),
+          v("Gris", "#9ca3af", "RompeVientos-Gris-Educacion\.webp", "educacion"),
+          v("Negro", "#111", "RompeVientos-Negro-Educacion\.webp", "educacion"),
         ],
       },
       {
@@ -403,11 +403,11 @@ const rawCategories: Category[] = [
         description: "Sweater tejido para uniforme",
         type: "sweater",
         variants: [
-          v("Azul", "#2563eb", "Sweater-Azul-Educacion.png", "educacion"),
-          v("Terracota", "#d4a574", "Sweater-Beige-Educacion.png", "educacion"),
-          v("Blanco", "#e8e8e8", "Sweater-Blanco-Educacion.png", "educacion"),
-          v("Gris", "#9ca3af", "Sweater-Gris-Educacion.png", "educacion"),
-          v("Negro", "#111", "Sweater-Negro-Educacion.png", "educacion"),
+          v("Azul", "#2563eb", "Sweater-Azul-Educacion\.webp", "educacion"),
+          v("Terracota", "#d4a574", "Sweater-Beige-Educacion\.webp", "educacion"),
+          v("Blanco", "#e8e8e8", "Sweater-Blanco-Educacion\.webp", "educacion"),
+          v("Gris", "#9ca3af", "Sweater-Gris-Educacion\.webp", "educacion"),
+          v("Negro", "#111", "Sweater-Negro-Educacion\.webp", "educacion"),
         ],
       },
     ],
@@ -422,10 +422,10 @@ const rawCategories: Category[] = [
         description: "Buzo cómodo para cocina y atención",
         type: "buzo",
         variants: [
-          v("Azul", "#2563eb", "BuzoCuelloRedondo-Azul-Gastronomia.png", "gastronomia"),
-          v("Blanco", "#e8e8e8", "BuzoCuelloRedondo-Blanco-Gastronomia.png", "gastronomia"),
-          v("Gris", "#9ca3af", "BuzoCuelloRedondo-Gris-Gastronomia.png", "gastronomia"),
-          v("Negro", "#111", "BuzoCuelloRedondo-Negro-Gastronomia.png", "gastronomia"),
+          v("Azul", "#2563eb", "BuzoCuelloRedondo-Azul-Gastronomia\.webp", "gastronomia"),
+          v("Blanco", "#e8e8e8", "BuzoCuelloRedondo-Blanco-Gastronomia\.webp", "gastronomia"),
+          v("Gris", "#9ca3af", "BuzoCuelloRedondo-Gris-Gastronomia\.webp", "gastronomia"),
+          v("Negro", "#111", "BuzoCuelloRedondo-Negro-Gastronomia\.webp", "gastronomia"),
         ],
       },
       {
@@ -434,8 +434,8 @@ const rawCategories: Category[] = [
         description: "Delantal medio cuerpo estilo pollera",
         type: "delantal",
         variants: [
-          v("Blanco y Gris", "#e5e5e5", "DelantalTipoPollera-BlancoYgris-Gastronomia.png", "gastronomia"),
-          v("Blanco y Negro", "#d0d0d0", "DelantalTipoPollera-BlancoYnegro-Gastronomia.png", "gastronomia"),
+          v("Blanco y Gris", "#e5e5e5", "DelantalTipoPollera-BlancoYgris-Gastronomia\.webp", "gastronomia"),
+          v("Blanco y Negro", "#d0d0d0", "DelantalTipoPollera-BlancoYnegro-Gastronomia\.webp", "gastronomia"),
         ],
       },
       {
@@ -444,8 +444,8 @@ const rawCategories: Category[] = [
         description: "Delantal de cuerpo completo",
         type: "delantal",
         variants: [
-          v("Gris", "#9ca3af", "DelantarEnter-Gris-Gastronomia.png", "gastronomia"),
-          v("Negro", "#111", "DelantarEnter-negro-Gastronomia.png", "gastronomia"),
+          v("Gris", "#9ca3af", "DelantarEnter-Gris-Gastronomia\.webp", "gastronomia"),
+          v("Negro", "#111", "DelantarEnter-negro-Gastronomia\.webp", "gastronomia"),
         ],
       },
       {
@@ -454,9 +454,9 @@ const rawCategories: Category[] = [
         description: "Gorra para ambientes de cocina",
         type: "gorra",
         variants: [
-          v("Azul", "#2563eb", "Gorra-Azul-Gastronomia.png", "gastronomia"),
-          v("Blanco", "#e8e8e8", "Gorra-Blanco-Gastronomia.png", "gastronomia"),
-          v("Negro", "#111", "Gorra-negra-Gastronomia.png", "gastronomia"),
+          v("Azul", "#2563eb", "Gorra-Azul-Gastronomia\.webp", "gastronomia"),
+          v("Blanco", "#e8e8e8", "Gorra-Blanco-Gastronomia\.webp", "gastronomia"),
+          v("Negro", "#111", "Gorra-negra-Gastronomia\.webp", "gastronomia"),
         ],
       },
       {
@@ -465,10 +465,10 @@ const rawCategories: Category[] = [
         description: "Remera para personal de salón",
         type: "remera",
         variants: [
-          v("Azul", "#2563eb", "Remera-Azul-Gastronomia.png", "gastronomia"),
-          v("Blanco", "#e8e8e8", "Remera-Blanco-Gastronomia.png", "gastronomia"),
-          v("Gris", "#9ca3af", "Remera-Gris-Gastronomia.png", "gastronomia"),
-          v("Negro", "#111", "Remera-Negra-Gastronomia.png", "gastronomia"),
+          v("Azul", "#2563eb", "Remera-Azul-Gastronomia\.webp", "gastronomia"),
+          v("Blanco", "#e8e8e8", "Remera-Blanco-Gastronomia\.webp", "gastronomia"),
+          v("Gris", "#9ca3af", "Remera-Gris-Gastronomia\.webp", "gastronomia"),
+          v("Negro", "#111", "Remera-Negra-Gastronomia\.webp", "gastronomia"),
         ],
       },
       {
@@ -477,8 +477,8 @@ const rawCategories: Category[] = [
         description: "Chaqueta de chef profesional",
         type: "chaqueta",
         variants: [
-          v("Blanco", "#e8e8e8", "TrajeCocina-Blanco-Gastronomia.png", "gastronomia"),
-          v("Blanco y Negro", "#d0d0d0", "TrajeCocina-BlancoYnegro-Gastronomia.png", "gastronomia"),
+          v("Blanco", "#e8e8e8", "TrajeCocina-Blanco-Gastronomia\.webp", "gastronomia"),
+          v("Blanco y Negro", "#d0d0d0", "TrajeCocina-BlancoYnegro-Gastronomia\.webp", "gastronomia"),
         ],
       },
     ],
@@ -493,11 +493,11 @@ const rawCategories: Category[] = [
         description: "Ambo clásico para profesionales de la salud",
         type: "ambo",
         variants: [
-          v("Azul", "#2563eb", "Ambos-Azul-Salud.png", "salud"),
-          v("Blanco", "#e8e8e8", "Ambos-blanco-Salud.png", "salud"),
-          v("Gris", "#9ca3af", "Ambos-gris-Salud.png", "salud"),
-          v("Verde", "#22c55e", "Ambos-Verde-Salud.png", "salud"),
-          v("Celeste", "#7dd3fc", "Ambos-default-Salud.png", "salud"),
+          v("Azul", "#2563eb", "Ambos-Azul-Salud\.webp", "salud"),
+          v("Blanco", "#e8e8e8", "Ambos-blanco-Salud\.webp", "salud"),
+          v("Gris", "#9ca3af", "Ambos-gris-Salud\.webp", "salud"),
+          v("Verde", "#22c55e", "Ambos-Verde-Salud\.webp", "salud"),
+          v("Celeste", "#7dd3fc", "Ambos-default-Salud\.webp", "salud"),
         ],
       },
       {
@@ -506,9 +506,9 @@ const rawCategories: Category[] = [
         description: "Ambo de diseño moderno",
         type: "ambo",
         variants: [
-          v("Blanco", "#e8e8e8", "AmbosAlternativo-Blanco-Salud.png", "salud"),
-          v("Gris", "#9ca3af", "AmbosAlternativo-Gris-Salud.png", "salud"),
-          v("Negro", "#111", "AmbosAlternativo-Negro-Salud.png", "salud"),
+          v("Blanco", "#e8e8e8", "AmbosAlternativo-Blanco-Salud\.webp", "salud"),
+          v("Gris", "#9ca3af", "AmbosAlternativo-Gris-Salud\.webp", "salud"),
+          v("Negro", "#111", "AmbosAlternativo-Negro-Salud\.webp", "salud"),
         ],
       },
       {
@@ -517,10 +517,10 @@ const rawCategories: Category[] = [
         description: "Saco para consultorio y hospital",
         type: "saco",
         variants: [
-          v("Blanco", "#e8e8e8", "Saco-blanco-Salud.png", "salud"),
-          v("Celeste", "#7dd3fc", "Saco-Celeste-Salud.png", "salud"),
-          v("Negro", "#111", "Saco-Negro-Salud.png", "salud"),
-          v("Verde", "#22c55e", "Saco-Verde-Salud.png", "salud"),
+          v("Blanco", "#e8e8e8", "Saco-blanco-Salud\.webp", "salud"),
+          v("Celeste", "#7dd3fc", "Saco-Celeste-Salud\.webp", "salud"),
+          v("Negro", "#111", "Saco-Negro-Salud\.webp", "salud"),
+          v("Verde", "#22c55e", "Saco-Verde-Salud\.webp", "salud"),
         ],
       },
     ],
@@ -553,3 +553,4 @@ export const prendaTypes = [
   { id: "saco", label: "Sacos" },
   { id: "conjunto", label: "Conjuntos" },
 ];
+

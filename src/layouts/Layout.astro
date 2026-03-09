@@ -1,18 +1,64 @@
 ---
+import { defaultSeoImage, siteLocale, siteName, toAbsoluteUrl } from "../lib/seo";
+
 interface Props {
   title: string;
+  description: string;
+  path?: string;
+  image?: string;
+  robots?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description,
+  path = "/",
+  image = defaultSeoImage,
+  robots = "index, follow",
+  structuredData,
+} = Astro.props;
+
+const canonicalUrl = Astro.site ? new URL(path, Astro.site).toString() : undefined;
+const socialImage = toAbsoluteUrl(image);
+const structuredDataPayload = structuredData
+  ? JSON.stringify(Array.isArray(structuredData) && structuredData.length === 1 ? structuredData[0] : structuredData)
+  : undefined;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Google Tag Manager -->
+    <script is:inline>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-P73SCJQ');
+    </script>
+    <!-- End Google Tag Manager -->
+    <link rel="icon" type="image/webp" href="/images/Birmania-Pestaña-blanco.webp" />
+    <link rel="shortcut icon" href="/images/Birmania-Pestaña-blanco.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:locale" content={siteLocale} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {structuredDataPayload && <script type="application/ld+json" set:html={structuredDataPayload} />}
     <script is:inline>
       document.documentElement.classList.add("js");
     </script>
@@ -25,6 +71,10 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P73SCJQ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <slot />
   </body>
 </html>
