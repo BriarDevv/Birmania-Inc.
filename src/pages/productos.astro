@@ -298,11 +298,15 @@ const productOptions = Array.from(
 
   /* ===== FILTERS ===== */
   .filters {
+    position: relative;
+    z-index: 40;
+    isolation: isolate;
     border-bottom: 1px solid #eee;
     background: #fff;
   }
 
   .filters__inner {
+    position: relative;
     max-width: 1440px;
     margin: 0 auto;
     padding: 16px 56px;
@@ -315,6 +319,10 @@ const productOptions = Array.from(
   /* ===== DROPDOWNS ===== */
   .dropdown {
     position: relative;
+  }
+
+  .dropdown.is-open {
+    z-index: 41;
   }
 
   .dropdown__trigger {
