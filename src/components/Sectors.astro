@@ -1,11 +1,11 @@
 ---
 const sectors = [
-  { name: "Salud", image: "/images/sectors/salud.webp" },
-  { name: "Gastronomía", image: "/images/sectors/gastronomia.webp" },
-  { name: "Industria", image: "/images/sectors/industria.webp" },
-  { name: "Educación", image: "/images/sectors/educacion.webp" },
-  { name: "Corporativo", image: "/images/sectors/corporativo.webp" },
-  { name: "Seguridad", image: "/images/sectors/seguridad.webp" },
+  { id: "salud", name: "Salud", image: "/images/sectors/salud.webp" },
+  { id: "gastronomia", name: "Gastronomía", image: "/images/sectors/gastronomia.webp" },
+  { id: "industria", name: "Industria", image: "/images/sectors/industria.webp" },
+  { id: "educacion", name: "Educación", image: "/images/sectors/educacion.webp" },
+  { id: "corporativo", name: "Corporativo", image: "/images/sectors/corporativo.webp" },
+  { id: "seguridad", name: "Seguridad", image: "/images/sectors/seguridad.webp" },
 ];
 ---
 
@@ -23,7 +23,7 @@ const sectors = [
     </div>
     <div class="sectors__grid">
       {sectors.map((sector) => (
-        <a href="#" class="sectors__card">
+        <a href={`/productos?sector=${sector.id}`} class="sectors__card" aria-label={`Ver productos de ${sector.name}`}>
           <img src={sector.image} alt={sector.name} loading="lazy" />
           <div class="sectors__card-overlay">
             <span class="sectors__card-label">{sector.name}</span>

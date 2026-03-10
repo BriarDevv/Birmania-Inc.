@@ -4,7 +4,7 @@ export const siteLocale = "es_AR";
 export const defaultSeoImage = "/images/Banner.webp";
 
 export const businessContact = {
-  email: "info@rpiscitelli.com.ar",
+  email: "info@birmaniainc.com.ar",
   telephone: "+5491151084736",
   streetAddress: "Av. Rivadavia 4005",
   addressLocality: "CABA",

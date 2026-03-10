@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 import { categories } from "../data/products";
+import { WHATSAPP_URL } from "../lib/contact";
 import { buildBreadcrumbSchema, buildOrganizationSchema, buildWebPageSchema } from "../lib/seo";
 
 const productsTitle = "Productos | Uniformes Laborales, Corporativos e Institucionales | Birmania Inc";
@@ -121,18 +122,27 @@ const productOptions = Array.from(
                 {cat.products.map((product) => (
                   <div
                     class="pcard"
+                    data-cat={cat.id}
                     data-product-id={product.id}
                     data-type={product.type}
                     data-product-name={product.name}
                     data-product-filter={getProductFilterLabel(product.name)}
                   >
-                    <div class="pcard__img-wrap">
-                      <img
-                        src={product.variants[0].image}
-                        alt={product.name}
-                        loading="lazy"
-                      />
-                    </div>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="pcard__image-link"
+                      aria-label={`Consultar ${product.name} por WhatsApp`}
+                    >
+                      <div class="pcard__img-wrap">
+                        <img
+                          src={product.variants[0].image}
+                          alt={product.name}
+                          loading="lazy"
+                        />
+                      </div>
+                    </a>
                     <div class="pcard__colors">
                       {product.variants.length > 1 && (
                         <button class="pcard__color-arrow pcard__color-arrow--left" aria-label="Color anterior">
@@ -157,8 +167,16 @@ const productOptions = Array.from(
                         </button>
                       )}
                     </div>
-                    <h3 class="pcard__name">{product.name}</h3>
-                    <p class="pcard__desc">{product.description}</p>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="pcard__content-link"
+                      aria-label={`Consultar ${product.name} por WhatsApp`}
+                    >
+                      <h3 class="pcard__name">{product.name}</h3>
+                      <p class="pcard__desc">{product.description}</p>
+                    </a>
                   </div>
                 ))}
               </div>
@@ -186,13 +204,21 @@ const productOptions = Array.from(
               data-product-name={product.name}
               data-product-filter={getProductFilterLabel(product.name)}
             >
-              <div class="pcard__img-wrap">
-                <img
-                  src={product.variants[0].image}
-                  alt={product.name}
-                  loading="lazy"
-                />
-              </div>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="pcard__image-link"
+                aria-label={`Consultar ${product.name} por WhatsApp`}
+              >
+                <div class="pcard__img-wrap">
+                  <img
+                    src={product.variants[0].image}
+                    alt={product.name}
+                    loading="lazy"
+                  />
+                </div>
+              </a>
               <div class="pcard__colors">
                 {product.variants.length > 1 && (
                   <button class="pcard__color-arrow pcard__color-arrow--left" aria-label="Color anterior">
@@ -217,8 +243,16 @@ const productOptions = Array.from(
                   </button>
                 )}
               </div>
-              <h3 class="pcard__name">{product.name}</h3>
-              <p class="pcard__desc">{product.description}</p>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="pcard__content-link"
+                aria-label={`Consultar ${product.name} por WhatsApp`}
+              >
+                <h3 class="pcard__name">{product.name}</h3>
+                <p class="pcard__desc">{product.description}</p>
+              </a>
             </div>
           ))
         )}
@@ -233,7 +267,7 @@ const productOptions = Array.from(
           Fabricamos uniformes a medida <span class="pcta__sub-break">para cualquier rubro.</span><br />
           Contactanos y te armamos una propuesta personalizada.
         </p>
-        <a href="/#contacto" class="pcta__btn">Solicitar Cotización</a>
+        <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" class="pcta__btn">Solicitar Cotización</a>
       </div>
     </section>
   </main>
@@ -484,6 +518,10 @@ const productOptions = Array.from(
     color: #000;
   }
 
+  .cat-section__link[hidden] {
+    display: none;
+  }
+
   .cat-section__divider {
     max-width: calc(1440px - 112px);
     margin: 0 auto;
@@ -556,6 +594,19 @@ const productOptions = Array.from(
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .pcard__image-link,
+  .pcard__content-link {
+    display: block;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .pcard__content-link {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
   .pcard__img-wrap {
@@ -644,6 +695,7 @@ const productOptions = Array.from(
     font-size: 15px;
     font-weight: 700;
     color: #000;
+    transition: color 0.24s ease;
   }
 
   .pcard__desc {
@@ -651,6 +703,14 @@ const productOptions = Array.from(
     font-size: 13px;
     font-weight: 400;
     color: #777;
+    transition: color 0.24s ease;
+  }
+
+  .pcard__image-link:focus-visible,
+  .pcard__content-link:focus-visible {
+    outline: 2px solid #25d366;
+    outline-offset: 4px;
+    border-radius: 10px;
   }
 
   /* ===== GRID VIEW ===== */
@@ -669,6 +729,11 @@ const productOptions = Array.from(
   }
 
   .grid-view .pcard[data-hidden="true"] {
+    display: none;
+  }
+
+  .cat-section .pcard[data-hidden="true"],
+  .cat-section .pcard[data-mobile-hidden="true"] {
     display: none;
   }
 
@@ -736,6 +801,14 @@ const productOptions = Array.from(
       background: #fff;
       color: #000;
       border-color: #000;
+    }
+
+    .pcard__content-link:hover .pcard__name {
+      color: #4f4f4f;
+    }
+
+    .pcard__content-link:hover .pcard__desc {
+      color: #5f5f5f;
     }
   }
 
@@ -1212,18 +1285,41 @@ const productOptions = Array.from(
   function syncMobileProductLists() {
     document.querySelectorAll<HTMLElement>(".cat-section").forEach((section) => {
       const cards = Array.from(section.querySelectorAll<HTMLElement>(".carousel-track .pcard"));
+      const visibleCards = cards.filter((card) => card.dataset.hidden !== "true");
       const loadMoreButton = section.querySelector<HTMLButtonElement>(".mobile-load-more");
 
       if (!loadMoreButton) return;
 
       const isExpanded = section.dataset.mobileExpanded === "true";
-      const shouldCollapse = mobileProductsQuery.matches && cards.length > 3 && !isExpanded;
+      const shouldCollapse = mobileProductsQuery.matches && visibleCards.length > 3 && !isExpanded;
 
       cards.forEach((card, index) => {
+        card.dataset.mobileHidden = "false";
+      });
+
+      visibleCards.forEach((card, index) => {
         card.dataset.mobileHidden = shouldCollapse && index >= 3 ? "true" : "false";
       });
 
-      loadMoreButton.hidden = !(mobileProductsQuery.matches && cards.length > 3 && !isExpanded);
+      loadMoreButton.hidden = !(mobileProductsQuery.matches && visibleCards.length > 3 && !isExpanded);
+    });
+  }
+
+  function refreshCarouselControls() {
+    document.querySelectorAll<HTMLElement>(".cat-section__carousel").forEach((carousel) => {
+      const track = carousel.querySelector<HTMLElement>(".carousel-track");
+      const leftBtn = carousel.querySelector<HTMLButtonElement>(".carousel-arrow--left");
+      const rightBtn = carousel.querySelector<HTMLButtonElement>(".carousel-arrow--right");
+
+      if (!track || !leftBtn || !rightBtn) return;
+
+      track.scrollLeft = 0;
+
+      const allFit = track.scrollWidth <= track.clientWidth + 5;
+      leftBtn.disabled = allFit || track.scrollLeft <= 5;
+      rightBtn.disabled = allFit || track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
+      leftBtn.style.display = allFit ? "none" : "";
+      rightBtn.style.display = allFit ? "none" : "";
     });
   }
 
@@ -1285,6 +1381,26 @@ const productOptions = Array.from(
     gridView.style.display = mode === "grid" ? "" : "none";
   }
 
+  function syncFiltersWithUrl() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (activeSector !== "todos") {
+      params.set("sector", activeSector);
+    } else {
+      params.delete("sector");
+    }
+
+    if (activePrenda !== "todos") {
+      params.set("prenda", activePrenda);
+    } else {
+      params.delete("prenda");
+    }
+
+    const query = params.toString();
+    const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+    window.history.replaceState({}, "", nextUrl);
+  }
+
   function scrollToProductsCta() {
     document.getElementById("productos-cta")?.scrollIntoView({ behavior: "smooth" });
   }
@@ -1292,12 +1408,12 @@ const productOptions = Array.from(
   function updatePrendaOptions() {
     const options = prendaMenu.querySelectorAll<HTMLButtonElement>(".dropdown__option");
     const availableProducts = new Set<string>(["todos", "otros"]);
-    const gridCards =
+    const browseCards =
       activeSector === "todos"
-        ? gridView.querySelectorAll<HTMLElement>(".pcard")
-        : gridView.querySelectorAll<HTMLElement>(`.pcard[data-cat="${activeSector}"]`);
+        ? browseView.querySelectorAll<HTMLElement>(".pcard")
+        : browseView.querySelectorAll<HTMLElement>(`.pcard[data-cat="${activeSector}"]`);
 
-    gridCards.forEach((card) => {
+    browseCards.forEach((card) => {
       if (card.dataset.productFilter) availableProducts.add(card.dataset.productFilter);
     });
 
@@ -1307,29 +1423,43 @@ const productOptions = Array.from(
   }
 
   function applyFilters() {
-    if (activeSector === "todos" && activePrenda === "todos") {
-      setView("browse");
-      document.querySelectorAll<HTMLElement>(".cat-section").forEach((s) => {
-        s.style.display = "";
-      });
-      ScrollTrigger.refresh();
-      return;
-    }
+    setView("browse");
 
-    setView("grid");
-    gridView.querySelectorAll<HTMLElement>(".pcard").forEach((card) => {
-      const matchSector = activeSector === "todos" || card.dataset.cat === activeSector;
-      const matchPrenda = activePrenda === "todos" || card.dataset.productFilter === activePrenda;
-      card.dataset.hidden = String(!(matchSector && matchPrenda));
+    document.querySelectorAll<HTMLElement>(".cat-section").forEach((section) => {
+      section.dataset.mobileExpanded = "false";
+      const viewAllButton = section.querySelector<HTMLButtonElement>(".cat-section__link");
+
+      const sectionMatchesSector = activeSector === "todos" || section.dataset.cat === activeSector;
+      const cards = section.querySelectorAll<HTMLElement>(".carousel-track .pcard");
+      let visibleCards = 0;
+
+      cards.forEach((card) => {
+        const matchSector = sectionMatchesSector;
+        const matchPrenda = activePrenda === "todos" || card.dataset.productFilter === activePrenda;
+        const isVisible = matchSector && matchPrenda;
+
+        card.dataset.hidden = String(!isVisible);
+        card.dataset.mobileHidden = "false";
+
+        if (isVisible) visibleCards += 1;
+      });
+
+      section.style.display = visibleCards > 0 ? "" : "none";
+
+      if (viewAllButton) {
+        viewAllButton.hidden = activeSector !== "todos";
+      }
     });
 
+    syncMobileProductLists();
+
     requestAnimationFrame(() => {
-      animateVisibleGridCards();
+      refreshCarouselControls();
       ScrollTrigger.refresh();
     });
   }
 
-  function selectSector(id: string, label: string) {
+  function selectSector(id: string, label: string, options?: { syncUrl?: boolean }) {
     activeSector = id;
     activePrenda = "todos";
     sectorValue.textContent = label;
@@ -1344,7 +1474,21 @@ const productOptions = Array.from(
 
     updatePrendaOptions();
     applyFilters();
+    if (options?.syncUrl !== false) syncFiltersWithUrl();
     sectorDropdown.classList.remove("is-open");
+  }
+
+  function selectPrenda(value: string, label: string, options?: { syncUrl?: boolean }) {
+    activePrenda = value;
+    prendaValue.textContent = label;
+
+    prendaMenu.querySelectorAll(".dropdown__option").forEach((o) => {
+      o.classList.toggle("is-active", (o as HTMLButtonElement).dataset.prenda === value);
+    });
+
+    applyFilters();
+    if (options?.syncUrl !== false) syncFiltersWithUrl();
+    prendaDropdown.classList.remove("is-open");
   }
 
   // Sector option click
@@ -1369,14 +1513,7 @@ const productOptions = Array.from(
       return;
     }
 
-    activePrenda = option.dataset.prenda!;
-    prendaValue.textContent = option.textContent!.trim();
-
-    prendaMenu.querySelectorAll(".dropdown__option").forEach((o) => o.classList.remove("is-active"));
-    option.classList.add("is-active");
-
-    applyFilters();
-    prendaDropdown.classList.remove("is-open");
+    selectPrenda(option.dataset.prenda!, option.textContent!.trim());
   });
 
   // --- "Ver todos" buttons ---
@@ -1388,4 +1525,34 @@ const productOptions = Array.from(
       document.getElementById("filters")?.scrollIntoView({ behavior: "smooth" });
     });
   });
+
+  function initializeFiltersFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const requestedSector = params.get("sector");
+    const requestedPrenda = params.get("prenda");
+
+    if (requestedSector && requestedSector !== "otros") {
+      const sectorOption = Array.from(
+        sectorMenu.querySelectorAll<HTMLButtonElement>(".dropdown__option")
+      ).find((option) => option.dataset.sector === requestedSector);
+
+      if (sectorOption) {
+        selectSector(requestedSector, sectorOption.textContent!.trim(), { syncUrl: false });
+      }
+    }
+
+    if (requestedPrenda && requestedPrenda !== "otros") {
+      const prendaOption = Array.from(
+        prendaMenu.querySelectorAll<HTMLButtonElement>(".dropdown__option")
+      ).find((option) => option.dataset.prenda === requestedPrenda && option.style.display !== "none");
+
+      if (prendaOption) {
+        selectPrenda(requestedPrenda, prendaOption.textContent!.trim(), { syncUrl: false });
+      }
+    }
+
+    syncFiltersWithUrl();
+  }
+
+  initializeFiltersFromUrl();
 </script>

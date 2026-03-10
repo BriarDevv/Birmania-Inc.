@@ -1,4 +1,6 @@
 ---
+import { WHATSAPP_URL } from "../lib/contact";
+
 interface Props {
   intro?: boolean;
 }
@@ -11,8 +13,6 @@ const navLinks = [
   { label: "Rubros", href: "/#rubros" },
   { label: "Contacto", href: "/#contacto" },
 ];
-
-const whatsappNumber = "5491100000000";
 ---
 
 <header class={`header${intro ? " header--intro" : ""}`} id="header">
@@ -28,7 +28,7 @@ const whatsappNumber = "5491100000000";
     </nav>
 
     <a
-      href={`https://wa.me/${whatsappNumber}`}
+      href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
       class="header__cta"
@@ -72,7 +72,7 @@ const whatsappNumber = "5491100000000";
 
   <div class="mobile-nav__footer">
     <a
-      href={`https://wa.me/${whatsappNumber}`}
+      href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
       class="mobile-nav__cta"
@@ -83,7 +83,7 @@ const whatsappNumber = "5491100000000";
       <span>Escribinos por WhatsApp</span>
     </a>
     <div class="mobile-nav__info">
-      <span>info@rpiscitelli.com.ar</span>
+      <span>info@birmaniainc.com.ar</span>
       <span>+54 9 11 5108-4736</span>
     </div>
   </div>
@@ -213,6 +213,7 @@ const whatsappNumber = "5491100000000";
 
   .header.menu-open {
     background: transparent;
+    pointer-events: none;
   }
 
   .header.menu-open .header__divider {
@@ -222,6 +223,10 @@ const whatsappNumber = "5491100000000";
   .header.menu-open .header__logo {
     opacity: 0;
     pointer-events: none;
+  }
+
+  .header.menu-open .header__hamburger {
+    pointer-events: auto;
   }
 
   .header__hamburger.is-active .header__hamburger-line:nth-child(1) {
@@ -502,12 +507,17 @@ const whatsappNumber = "5491100000000";
     link.addEventListener("click", closeMenu);
   });
 
-  mobileLogo?.addEventListener("click", (event) => {
+  function handleLogoClick(event: MouseEvent) {
+    event.preventDefault();
     closeMenu();
 
     if (window.location.pathname === "/") {
-      event.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
-  });
+
+    window.location.href = "/";
+  }
+
+  mobileLogo?.addEventListener("click", handleLogoClick);
 </script>

@@ -1,5 +1,5 @@
 ---
-
+import { WHATSAPP_URL } from "../lib/contact";
 ---
 
 <section class="cta" id="contacto">
@@ -12,7 +12,7 @@
       personalizada para tu empresa.
     </p>
     <div class="cta__row">
-      <a href="#" class="cta__btn">Solicitar Cotización</a>
+      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" class="cta__btn">Solicitar Cotización</a>
     </div>
     <span class="cta__trust">Sin compromiso · Respuesta en menos de 24hs</span>
   </div>

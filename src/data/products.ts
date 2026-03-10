@@ -82,11 +82,17 @@ const fullSetProducts = new Set([
   "sal-ambosalt",
 ]);
 
+const topOptionalProducts = new Set([
+  "ind-pantalon",
+]);
+
 const enhanceProductDescription = (product: Product): string => {
   const baseDescription = product.description.trim().replace(/\.$/, "");
   const setNote = fullSetProducts.has(product.id)
     ? "Conjunto completo"
-    : "Con parte de abajo opcional";
+    : topOptionalProducts.has(product.id)
+      ? "Con parte de arriba opcional"
+      : "Con parte de abajo opcional";
 
   return `${baseDescription}. ${setNote}. Color a elección, con o sin bordado o DTF.`;
 };
