@@ -23,7 +23,12 @@ const sectors = [
     </div>
     <div class="sectors__grid">
       {sectors.map((sector) => (
-        <a href={`/productos?sector=${sector.id}`} class="sectors__card" aria-label={`Ver productos de ${sector.name}`}>
+        <a
+          href={`/productos?sector=${sector.id}`}
+          class="sectors__card"
+          id={`sector_card_${sector.id}`}
+          aria-label={`Ver productos de ${sector.name}`}
+        >
           <img src={sector.image} alt={sector.name} loading="lazy" />
           <div class="sectors__card-overlay">
             <span class="sectors__card-label">{sector.name}</span>

@@ -112,7 +112,7 @@ const productOptions = Array.from(
           <div class="cat-section__inner">
             <div class="cat-section__header">
               <h2 class="cat-section__title">{cat.label}</h2>
-              <button class="cat-section__link" data-viewall={cat.id}>Ver todos <span>&rarr;</span></button>
+              <button class="cat-section__link" data-viewall={cat.id} id={`products_view_all_${cat.id}`}>Ver todos <span>&rarr;</span></button>
             </div>
             <div class="cat-section__carousel">
               <button class="carousel-arrow carousel-arrow--left" aria-label="Anterior">
@@ -267,7 +267,7 @@ const productOptions = Array.from(
           Fabricamos uniformes a medida <span class="pcta__sub-break">para cualquier rubro.</span><br />
           Contactanos y te armamos una propuesta personalizada.
         </p>
-        <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" class="pcta__btn">Solicitar Cotización</a>
+        <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" class="pcta__btn" id="cta_quote_products">Solicitar Cotización</a>
       </div>
     </section>
   </main>

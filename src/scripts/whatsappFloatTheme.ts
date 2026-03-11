@@ -26,7 +26,7 @@ const pointIsInsideRect = (x: number, y: number, rect: DOMRect) =>
   x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
 
 export const initWhatsAppFloatTheme = (): void => {
-  const whatsappFloat = document.getElementById("whatsapp-float");
+  const whatsappFloat = document.getElementById("cta_whatsapp_float");
 
   if (!whatsappFloat) return;
 
